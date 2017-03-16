@@ -5,4 +5,4 @@ University of California, Santa Cruz
 
 Instructor: Professor <a href="https://users.soe.ucsc.edu/~lodha/">Suresh K Lodha</a>, Computer Science
 
-<a href="https://sureshlodha.github.io/CMPS263_Winter2017">Visualization Link</a>
+<a href="https://sureshlodha.github.io/CMPS263_Winter2017/">Visualization Link</a>
