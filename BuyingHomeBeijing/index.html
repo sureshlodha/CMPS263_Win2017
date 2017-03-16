@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>When and Where can i buy a house in Beijing</title>
+</head>
+<link rel="stylesheet" href="css/tether.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<style>
+    td {
+        font-family: Helvetica, sans-serif;
+        font-size: 16px;
+        color: #000;
+    }
+
+    div.reference {
+        position: relative;
+        top: 100%;
+        height: 100%;
+        padding: 4px;
+        background-color: #ddd;
+        border-bottom: 2px solid #ccc;
+        padding: 4px;
+    }
+
+    div.map {
+        height: 600px;
+    }
+
+    div.wage {
+        height: 200%;
+        width: 200%;
+    }
+
+    .container {
+        position: relative;
+        top: 10%;
+        left: 0%;
+    }
+
+    a {
+        font-family: Helvetica, sans-serif;
+        font-size: 16px;
+        color: #000;
+    }
+
+    text {
+        font-family: Helvetica, sans-serif;
+        font-size: 8px;
+        color: #000;
+    }
+
+    h1 {
+        font-family: Helvetica, sans-serif;
+        font-size: 28px;
+        color: #000;
+    }
+
+    h2 {
+        float: top;
+        margin-top: 10px;
+        font-family: Helvetica, sans-serif;
+        font-size: 16px;
+        color: #000;
+    }
+
+    div.info {
+        float: left;
+        height: 100%;
+        width: 30%;
+    }
+
+    svg.wagemap {
+        float: top;
+        position: relative;
+        height: 100%;
+        width: 60%;
+    }
+
+    svg.district {
+        float: right;
+        position: relative;
+        height: 100%;
+        width: 60%;
+
+    }
+
+    div.title {
+        height: 100%;
+        padding: 4px;
+        background-color: #ddd;
+        border-bottom: 2px solid #ccc;
+        padding: 4px;
+    }
+
+    .tooltip {
+        position: absolute;
+        font-family: simsun;
+        font-size: 16px;
+        text-align: center;
+        padding: 1em;
+        background: #903030;
+        border: 1px solid #dddddd;
+        color: #ffffff;
+    }
+</style>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/tether.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/d3.v3.min.js"></script>
+<script type="text/javascript" src="js/beijingdata.js"></script>
+<script type="text/javascript" src="js/samplewage.js"></script>
+<body>
+<div class="title">
+    <div class="container">
+        <h1 style="text-align:center">When a CS graduate student can buy a 70m<sup>2</sup> home in Beijing?</h1>
+        <h2 style="text-align:center">A CS marketing person can not buy a home in Beijing even within 15 year. (70% saving, No family funding)</h2>
+        <h2 style="text-align:center">A CS developer can buy a home with in 15 years in some outskirts. (70% saving, No family funding)</h2>
+        <h2 style="text-align:center">A CS product manager can buy a home within 15 years in most outskirts. (70% saving, No family funding)</h2>
+    </div>
+</div>
+<br>
+<div>
+    <div class="info">
+        <button style="float:top;margin-top:10px;" id="wagetype1" type="button" class="btn btn-primary"
+                onclick="changeWage(1)">
+            I'm a marketing person.
+        </button>
+        <br>
+        <button style="float:top;margin-top:10px;" id="wagetype0" type="button" class="btn btn-primary"
+                onclick="changeWage(0)">
+            I'm a developer.
+        </button>
+        <br>
+        <button style="float:top;margin-top:10px;" id="wagetype2" type="button" class="btn btn-primary"
+                onclick="changeWage(2)">
+            I'm a product manager.
+        </button>
+        <br>
+
+        <a>My family funding will be </a>
+        <input id="funding" style="width:100px" type="number" value=0
+               onchange="changefunding()">
+        <a>,000.</a>
+        <br>
+        <a>And I will save </a>
+        <input id="saving" style="width:50px" type="number" value=70
+               onchange="changesaveing()">
+        <a>% of my salary.</a>
+        <br>
+        <a>So my total home funding will be the following chart:</a>
+        <br>
+        <div id="wage" class="wage"></div>
+    </div>
+    <div class="map" id="map">
+    </div>
+</div>
+<div class="reference">
+    <table border="0">
+        <tr>
+            <td>Author：</td>
+            <td>Ran(Ryan) Shi</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Ziqiang Wang</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Zhuo Wang</td>
+        </tr>
+    </table>
+    <a style="left: 500px; font-family: Helvetica, sans-serif;font-size: 16px;color: #000;"> All Data is Captured from
+        following source, Please do not use this page for commercial purposes.</a>
+    <table>
+        <tr>
+            <td>Data source:</td>
+            <td>(Salary)<a href="http://www.jobui.com/salary/beijing/">http://www.jobui.com/salary/beijing/</a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>(Apartment Price)<a href="http://bj.lianjia.com/xiaoqu/">http://bj.lianjia.com/xiaoqu/</a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>(Geo JSON)<a href="http://www.ourd3js.com/wordpress/739/">http://www.ourd3js.com/wordpress/739/</a></td>
+        </tr>
+        <tr>
+            <td>Relevant visualization:</td>
+            <td><a href="http://data.house.163.com/bj/housing/index.html">http://data.house.163.com/bj/housing/index.html</a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><a href="http://www.creprice.cn/">http://www.creprice.cn/</a></td>
+        </tr>
+        <tr>
+            <td>GitHub:</td>
+            <td><a href="https://github.com/shiranpp/CMPS263project">https://github.com/shiranpp/CMPS263project</a></td>
+        </tr>
+        <tr>
+            <td>DataW report:</td>
+            <td><a href="https://github.com/shiranpp/CMPS263project/blob/master/Dataw.pdf">https://github.com/shiranpp/CMPS263project/blob/master/Dataw.pdf</a>
+            </td>
+        </tr>
+        <tr>
+            <td>ReadMeViz:</td>
+            <td><a href="https://github.com/shiranpp/CMPS263project/blob/master/ReadMeViz.pdf">https://github.com/shiranpp/CMPS263project/blob/master/ReadMeViz.pdf</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    //Util
+    var tomoney = function (m, n, x) {
+        var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+        return m.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+    };
+    function cuberoot(x) {
+        var y = Math.pow(Math.abs(x), 1 / 3);
+        return x < 0 ? -y : y;
+    }
+    var saving = 0.7;
+
+    function solveCubic(a, b, c, d) {
+        if (Math.abs(a) < 1e-8) { // Quadratic case, ax^2+bx+c=0
+            a = b;
+            b = c;
+            c = d;
+            if (Math.abs(a) < 1e-8) { // Linear case, ax+b=0
+                a = b;
+                b = c;
+                if (Math.abs(a) < 1e-8) // Degenerate case
+                    return [];
+                return [-b / a];
+            }
+
+            var D = b * b - 4 * a * c;
+            if (Math.abs(D) < 1e-8)
+                return [-b / (2 * a)];
+            else if (D > 0)
+                return [(-b + Math.sqrt(D)) / (2 * a), (-b - Math.sqrt(D)) / (2 * a)];
+            return [];
+        }
+
+        // Convert to depressed cubic t^3+pt+q = 0 (subst x = t - b/3a)
+        var p = (3 * a * c - b * b) / (3 * a * a);
+        var q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
+        var roots;
+
+        if (Math.abs(p) < 1e-8) { // p = 0 -> t^3 = -q -> t = -q^1/3
+            roots = [cuberoot(-q)];
+        } else if (Math.abs(q) < 1e-8) { // q = 0 -> t^3 + pt = 0 -> t(t^2+p)=0
+            roots = [0].concat(p < 0 ? [Math.sqrt(-p), -Math.sqrt(-p)] : []);
+        } else {
+            var D = q * q / 4 + p * p * p / 27;
+            if (Math.abs(D) < 1e-8) {       // D = 0 -> two roots
+                roots = [-1.5 * q / p, 3 * q / p];
+            } else if (D > 0) {             // Only one real root
+                var u = cuberoot(-q / 2 - Math.sqrt(D));
+                roots = [u - p / (3 * u)];
+            } else {                        // D < 0, three roots, but needs to use complex numbers/trigonometric solution
+                var u = 2 * Math.sqrt(-p / 3);
+                var t = Math.acos(3 * q / p / u) / 3;  // D < 0 implies p < 0 and acos argument in [-1..1]
+                var k = 2 * Math.PI / 3;
+                roots = [u * Math.cos(t), u * Math.cos(t - k), u * Math.cos(t - 2 * k)];
+            }
+        }
+
+        // Convert back from depressed cubic
+        for (var i = 0; i < roots.length; i++)
+            roots[i] -= b / (3 * a);
+
+        return roots;
+    }
+
+    //Color Scaling range
+    var color = function (x1, x2) {
+        return ((x2 <= 0) ? (x1[0]) : ((x2 < 0.25) ? (x1[1]) : (x1[2])))
+    }
+    var scale = function (i) {
+        return color(['#fecc5c', '#fd8d3c', '#e31a1c'], i)
+    }
+    var scale1 = function (i) {
+        return color(['#bdc9e1', '#74a9cf', '#0570b0'], i)
+    }
+
+    //    var scale = chroma.scale([ '#636363','#bdbdbd']).domain([0,0.25,0.5], 3, 'quantiles');
+    //    var scale1 = chroma.scale([ '#000000','#ffffff']).domain([0,0.25,0.5], 3, 'quantiles');
+
+    //Graph Setting
+    var width = 800;
+    var height = 600;
+    var center = [116.41667, 40.21667];
+    //div width
+    var m_width = $("#map").width();
+    var m_width1 = $("#wage").width();
+
+    var isZoomed = false;
+    var district;
+
+    var tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0.0);
+    var dis = 0.0;
+    //Wage
+    $("#wagetype0").css("background-color", "#0bb7ba");
+    var wage = jobs[0].factor;
+    function changeWage(i) {
+        $("#wagetype0").css("background-color", "#0275d8");
+        $("#wagetype1").css("background-color", "#0275d8");
+        $("#wagetype2").css("background-color", "#0275d8");
+//        $("#wagetype0").text($("#wgitem" + j.toString()).text());
+//        $("#wagetype0").css("background-color", "#0bb7ba")
+        wage = jobs[i].factor;
+
+//        $("li.wgitem").css("background-color", "#ffffff")
+        $("#wagetype" + i.toString()).css("background-color", "#0bb7ba");
+        g.selectAll("circle").remove();
+        var xyz = [width / 2, height / 2, 1];
+        zoom(xyz)
+        randerwage();
+        rander();
+    }
+    function changeAvgWage() {
+        $("#wagetype0").css("background-color", "#0275d8")
+        $("#wagetype0").text("Job title wage increasement predict(职位薪资增长预测):");
+        $("#wagetype1").css("background-color", "#0bb7ba")
+        wage = [0, 0, Number($("#avgwage_input").val()) * 12, 0];
+        $("li.wgitem").css("background-color", "#ffffff")
+        g.selectAll("circle").remove();
+        var xyz = [width / 2, height / 2, 1];
+        zoom(xyz)
+        rander();
+    }
+    var area = 70;
+    function changrArea(i, j) {
+        $("li.aitem").css("background-color", "#ffffff")
+        $("#aitem" + j.toString()).css("background-color", "#0bb7ba");
+        g.selectAll("circle").remove();
+        var xyz = [width / 2, height / 2, 1];
+        zoom(xyz)
+        area = i;
+        rander();
+    }
+    //lengend
+    var linear = d3.scale.linear()
+        .domain([0, 150])
+        .range([0, 1]);
+    //    Draw map
+    //    -----------------------------------------------------------------------------------------------
+    var projection = d3.geo.mercator()
+        .center(center)
+        .scale(10000)
+        .translate([width / 2, height / 2]);
+
+    var path = d3.geo.path()
+        .projection(projection);
+    var funding = 0;
+    var svg1 = d3.select("#wage").append("svg")
+        .attr("viewBox", "0 0 400 200")
+        .attr("class", "wagemap")
+        .attr("width", m_width1)
+        .attr("height", m_width1 * 200 / 400);
+
+
+    var svg = d3.select("#map").append("svg")
+        .attr("class", "district")
+        .attr("preserveAspectRatio", "xMidYMid")
+        .attr("viewBox", "0 0 " + width + " " + height)
+        .attr("width", m_width)
+        .attr("height", m_width * height / width);
+
+    svg.append("rect")
+        .attr("class", "background")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", "white")
+        .on("click", function (d, i) {
+            if (last != null) {
+                temp.attr("fill", last);
+                last = null;
+            } else {
+            }
+            return district_clicked()
+        });
+    var last = null, temp = "#ffffff";
+    function changesaveing() {
+        if (Number($("#saving").val()) > 100) {
+            $("#saving").val(100);
+        }
+        if (Number($("#saving").val()) < 1) {
+            $("#saving").val(1);
+        }
+        saving = Number($("#saving").val() / 100);
+        randerwage();
+        rander();
+    }
+    function changefunding() {
+        if (Number($("#funding").val()) < 0) {
+            $("#funding").val(0);
+        }
+        funding = Number($("#funding").val());
+        randerwage();
+        rander();
+    }
+    var g = svg.append("g");
+    function canyear(price) {
+        price = price * area / ( saving) - funding * 1000;
+        if (price < 0)
+            return 0;
+        var ans = solveCubic(wage[0], wage[1], wage[2], wage[3] - price);
+        var min = 70;
+
+        for (num in ans) {
+            if (ans[num] >= 0)
+                min = Math.min(min, ans[num]);
+        }
+        return min;
+    }
+    function rander() {
+
+        g.selectAll("path").remove();
+        g
+            .attr("id", "district")
+            .selectAll("path")
+            .data(geodata.features)
+            .enter()
+            .append("path")
+            .attr("id", function (d) {
+                return d.id;
+            })
+            .attr("stroke", "#000")
+            .attr("stroke-width", 0.2)
+            .attr("fill", function (d, i) {
+                if (d.properties.avg_price == 0)
+                    return scale(1);
+                ;
+                return scale(Math.max(0, Math.min(30, (canyear(d.properties.avg_price) - 10) / 20)));
+            })
+            .style("opacity", 0.9)
+            .attr("d", path)
+            .on("click", function (d, i) {
+                if (last != null) {
+                    temp.attr("fill", last);
+                    last = null;
+                } else {
+                    last = d3.select(this).attr("fill");
+                    temp = d3.select(this);
+                    temp.attr("fill", "#eeeeee");
+                }
+                return district_clicked(d, i)
+            })
+            .on("mouseover", function (d, i) {
+                if (!isZoomed) {
+                    d3.select(this)
+                        .style("opacity", 0.7);
+                    tooltip.html("District name:" + d.properties.name + ((d.properties.avg_price == 0) ? "<br>unavailable" : ("<br>Price:¥" + tomoney(d.properties.avg_price, 2).toLocaleString("en-us") + " /m<sup>2</sup><br>Cost:" + ((Number(canyear(d.properties.avg_price)) >= 70) ? '>70' : Number(canyear(d.properties.avg_price)).toFixed(2)) + " year")))
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY + 10) + "px")
+                        .style("opacity", 1.0);
+                } else {
+                    d3.select(this)
+                        .style("opacity", 0.9);
+                }
+            }).on("mousemove", function (d) {
+            if (!isZoomed) {
+                tooltip.html("District name:" + d.properties.name + ((d.properties.avg_price == 0) ? "<br>unavailable" : ("<br>Price:¥" + tomoney(d.properties.avg_price, 2).toLocaleString("en-us") + " /m<sup>2</sup><br>Cost:" + ((Number(canyear(d.properties.avg_price)) >= 70) ? '>70' : Number(canyear(d.properties.avg_price)).toFixed(2)) + " year")))
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY + 10) + "px")
+            } else {
+                d3.select(this)
+                    .style("opacity", 0.9);
+            }
+
+        })
+            .on("mouseout", function (d, i) {
+                tooltip.html("").style("opacity", 0.0);
+                d3.select(this)
+                    .style("opacity", 0.9);
+            });
+
+
+        var legend = svg.append("g")
+            .attr("class", "lenged");
+        legend.selectAll("text")
+            .data(["0-10", " 10-15", ">15 ", "Years"])
+            .enter()
+            .append("text")
+            .attr("x", function (d, i) {
+                return 25 + i * 80;
+            })
+            .attr("y", 20)
+            .text(function (d) {
+                return d;
+            });
+        svg.append("g")
+            .selectAll("rect")
+            .data([0, 0.1, 1])
+            .enter()
+            .append("rect")
+            .attr("y", function (d, i) {
+                return 30;
+            })
+            .attr("x", function (d, i) {
+                return Math.floor(i) * 80 + 10;
+            })
+            .attr("width", 80)
+            .attr("height", 20)
+            .style("fill", function (d) {
+                return scale(d);
+            })
+            .style("stroke", "black")
+            .style("stroke-width", "0.2px");
+
+    }
+    rander();
+
+    //Get coodinate for zoom in
+    function get_xyz(d) {
+        var bounds = path.bounds(d);
+        var w_scale = (bounds[1][0] - bounds[0][0]) / width;
+        var h_scale = (bounds[1][1] - bounds[0][1]) / height;
+        var z = .9 / Math.max(w_scale, h_scale);
+        var x = (bounds[1][0] + bounds[0][0]) / 2;
+        var y = (bounds[1][1] + bounds[0][1]) / 2;
+        return [x, y, z];
+    }
+    ;
+
+    //Click action for district map
+
+    function district_clicked(d, i) {
+
+        if (district) {
+            g.selectAll("#" + district.id).style('display', null);
+        }
+        if (d && district == null) {
+            dis = 0.9;
+            tooltip.html("").style("opacity", 0.0);
+            isZoomed = true;
+            var cells = d.properties.cells
+            var xyz = get_xyz(d);
+            g.selectAll("circle")
+                .data(cells)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d) {
+                    return projection(d.coordinates)[0];
+                })
+                .attr("cy", function (d) {
+                    return projection(d.coordinates)[1];
+                })
+                .attr("r", function (d) {
+                    return 3 / xyz[2];
+                })
+                .attr("fill", function (d, i) {
+                    if (d.price == 0)
+                        return scale(1);
+                    ;
+                    return scale(Math.max(0, Math.min(30, (canyear(d.avg_price) - 10) / 20)));
+                })
+                .on("mouseover", function (d) {
+                    d3.select(this)
+                        .style("opacity", 0.5);
+                    tooltip.html(function () {
+                        var s = "Neighborhood Name:";
+                        for (y in d.name) {
+                            s += d.name[y];
+                            s += "<br>Cost: ";
+                            s += ((Number(canyear(d.price[y])) >= 70) ? '>70' : Number(canyear(d.price[y])).toFixed(2));
+                            s += " Years<br>";
+                        }
+                        return s
+                    })
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY + 10) + "px")
+                        .style("opacity", 1.0);
+
+                }).on("mousemove", function (d) {
+                if (!isZoomed) {
+                    tooltip.html(function () {
+                        var s = "";
+                        for (y in d.name) {
+                            s += d.name[y];
+                            s += "<br>Cost: ";
+                            s += ((Number(canyear(d.price[y])) >= 70) ? '>70' : Number(canyear(d.price[y])).toFixed(2));
+                            s += " Years<br>";
+                        }
+                        return s
+                    })
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY + 10) + "px")
+                }
+
+            })
+                .on("mouseout", function (d, i) {
+                    tooltip.html("").style("opacity", 0.0);
+                    d3.select(this)
+                        .style("opacity", 1);
+                })
+                .style("stroke", "black")
+                .style("stroke-width", "0.01px");
+            zoom(xyz);
+            district = d;
+        } else {
+            dis = 0.05;
+            g.selectAll("circle").remove();
+            isZoomed = false;
+            var xyz = [width / 2, height / 2, 1];
+            district = null;
+            zoom(xyz);
+
+        }
+
+    }
+    ;
+    function randerwage() {
+        svg1.selectAll("g").remove();
+        var g1 = svg1.append("g").attr('transform', "translate(100,20)");
+        var data = [];
+        for (i = 0; i < 30; i++) {
+            data[i] = {
+                x: i,
+                y: Math.max(i * i * i * wage[0] + i * i * wage[1] + i * wage[2] + wage[3], 0) * saving + (funding * 1000)
+            }
+        }
+        var xScale = d3.scale.linear()
+            .domain([0, 30])
+            .range([0, 290]);
+        var yScale = d3.scale.linear()
+            .domain([0, data[29].y])
+            .range([160, 0]);
+        var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient('bottom');
+        var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient('left');
+        g1.append('g')
+            .attr('class', 'axis')
+
+            .attr({
+                'fill': 'none',
+                'stroke': '#000',
+                'transform': 'translate(0,160)'
+            })
+            .call(xAxis);
+        g1.append('g')
+            .attr('class', 'axis')
+            .attr({
+                'fill': 'none',
+                'stroke': '#000'
+            })
+            .call(yAxis);
+        var line = d3.svg.line()
+            .x(function (d) {
+                return xScale(d.x)
+            })
+            .y(function (d) {
+                return yScale(d.y);
+            })
+            // 选择线条的类型
+            .interpolate('linear');
+        g1.append('path')
+            .attr('class', 'line')
+            .attr('d', line(data))
+            .attr({
+                'fill': 'none',
+                'stroke': '#000'
+            });
+        g1.append("text")
+            .attr("x", 10)
+            .attr("y", 40)
+            .text("CNY");
+        g1.append("text")
+            .attr("x", 250)
+            .attr("y", 150)
+            .text("Year");
+    }
+    randerwage();
+
+
+    //zoomin
+    function zoom(xyz) {
+        g.transition()
+            .duration(750)
+            .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
+            .selectAll(["#countries", "#states", "#cities"])
+            .style("stroke-width", 1.0 / xyz[2] + "px")
+            .selectAll(".city")
+            .attr("d", path.pointRadius(20.0 / xyz[2]));
+    }
+    ;
+    //    -----------------------------------------------
+
+</script>
+
+</body>
+</html>
