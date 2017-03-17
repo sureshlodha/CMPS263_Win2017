@@ -1,0 +1,167 @@
+[
+    {
+        "food": "shrimp",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "67",
+        "nutrients": {
+            "lead": 0.012,
+            "arsenic": 0.327,
+            "cadmium": 0.004 
+        }
+    },
+
+    {
+        "food": "rice",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "67",
+        "nutrients": {
+            "lead": 0,
+            "arsenic": 0.065,
+            "cadmium": 0.006 
+        }
+    },
+
+    {
+        "food": "cereal",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "67",
+        "nutrients": {
+            "lead": 0.001,
+            "arsenic": 0,
+            "cadmium": 0.003 
+        }
+    },
+
+    {
+        "food": "spinach",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "67",
+        "nutrients": {
+            "lead": 0.004,
+            "arsenic": 0,
+            "cadmium": 0.196 
+        }
+    },
+
+        {
+        "food": "broccoli",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "67",
+        "nutrients": {
+            "lead": 0,
+            "arsenic": 0,
+            "cadmium": 0.009 
+        }
+    },
+
+    {
+        "food": "lettuce",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "67",
+        "nutrients": {
+            "lead": 0.012,
+            "arsenic": 0,
+            "cadmium": 0.057 
+        }
+    },
+
+    {
+        "food": "avocado",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "67",
+        "nutrients": {
+            "lead": 0.001,
+            "arsenic": 0,
+            "cadmium": 0.013 
+        }
+    },
+
+    {
+        "food": "tuna",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "30",
+        "nutrients": {
+            "lead": 0.002,
+            "arsenic": 1.077,
+            "cadmium": 0.014
+        }
+    },
+
+        {
+        "food": "salmon",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "30",
+        "nutrients": {
+            "lead": 0,
+            "arsenic": 0.305,
+            "cadmium": 0.001
+        }
+    },
+
+
+    {
+        "food": "chicken",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "47",
+        "nutrients": {
+            "lead": 0,
+            "arsenic": 0.005,
+            "cadmium": 0
+        }
+    },
+    {
+        "food": "strawberries",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "128",
+        "nutrients": {
+            "lead": 0.002,
+            "arsenic": 0,
+            "cadmium": 0.015
+        }
+    },
+    {
+        "food": "beef",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "136",
+        "nutrients": {
+            "lead": 0,
+            "arsenic": 0,
+            "cadmium": 0
+        }
+    },
+    {
+        "food": "bacon",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "136",
+        "nutrients": {
+            "lead": 0.001,
+            "arsenic": 0,
+            "cadmium": 0.002
+        }
+    },
+
+    {
+        "food": "banana",
+        "type": "vegetable",
+        "serving": "1 Cup",
+        "cup-weight": "136",
+        "nutrients": {
+            "lead": 0,
+            "arsenic": 0,
+            "cadmium": 0.001
+        }
+    }    
+]
