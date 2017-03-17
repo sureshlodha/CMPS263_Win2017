@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>UCSC Courses and Events</title>
+      <meta charset="utf-8">
+      <link type="text/css" rel="stylesheet" href="stylesheet/materialize.min.css"  media="screen,projection"/>
+      <link rel="stylesheet" type="text/css" href="stylesheet/style.css" media="screen" />
+      <script src="script/location_data.js"></script>
+      <script src="script/jquery-3.1.1.js"></script>
+      <script type="text/javascript" src="script/materialize.min.js"></script>
+   </head>
+   <body>
+      <div class="page-header">
+         <h5><strong>What classes can we take at UCSC during our free time?</strong></h5>
+         <h5><strong>What events can we attend at UCSC during our free time?</strong></h5>
+         <h6 id="class-title">Start from Apr 3, Monday; End by June 15, Friday; 2017</h6>
+         <h6 id="events-title">All events during 2017</h6>
+         <p>You can use this visualization to discover that you can take Beginning Tennis class from 9AM to 10AM
+            on Tuesday or you can attend Graduate Research Symposium on May 12 on 1PM </p>
+      </div>
+      <div id="map"></div>
+
+      <div  class="box">
+
+         <!--<div class = "search-box">-->
+            <!--<input type="text" name="search" placeholder="Search..">-->
+         <!--</div>-->
+         <div class="select" id="select">
+            <label for="courses-variable" style=" color:black; font-size:0.8em; ">Select a day:</label>
+            <select id="courses-variable" class="browser-default">
+               <option value= ""  selected="selected">All days </option>
+               <option value="Mo">Monday</option>
+               <option value="Tu">Tuesday</option>
+               <option value="We">Wednesday</option>
+               <option value="Th">Thursday</option>
+               <option value="Fr">Friday</option>
+               <option value="Sa">Saturday</option>
+               <option value="Su">Sunday</option>
+            </select>
+            <label for="start-time" style=" color:black; font-size:0.8em; ">Start from:</label>
+            <select id="start-time" class="browser-default">
+               <option value=7 selected="selected">07:00AM</option>
+               <option value=8>08:00AM</option>
+               <option value=9>09:00AM</option>
+               <option value=10>10:00AM</option>
+               <option value=11>11:00AM</option>
+               <option value=12>12:00PM</option>
+               <option value=13>01:00PM</option>
+               <option value=14>02:00PM</option>
+               <option value=15>03:00PM</option>
+               <option value=16>04:00PM</option>
+               <option value=17>05:00PM</option>
+               <option value=18>06:00PM</option>
+               <option value=19>07:00PM</option>
+               <option value=20>08:00PM</option>
+            </select>
+            <label for="end-time" style=" color:black; font-size:0.8em;width: 8em; text-align: left;">End by:</label>
+            <select id="end-time" class="browser-default">
+               <option value=9>09:00AM</option>
+               <option value=10>10:00AM</option>
+               <option value=11>11:00AM</option>
+               <option value=12>12:00AM</option>
+               <option value=13>01:00PM</option>
+               <option value=14>02:00PM</option>
+               <option value=15>03:00PM</option>
+               <option value=16>04:00PM</option>
+               <option value=17>05:00PM</option>
+               <option value=18>06:00PM</option>
+               <option value=19>07:00PM</option>
+               <option value=20>08:00PM</option>
+               <option value=21>09:00PM</option>
+               <option value=22 selected="selected">10:00PM</option>
+            </select>
+         </div>
+      </div>
+            <div class="box">
+           <div class="course-event-button">
+            <a class="waves-effect waves-light btn"  onclick="showEvents()" id = "show-events">Show events</a>
+            <a class="waves-effect waves-light btn"  onclick="showClasses()" id = "show-classes">Show classes</a>
+         </div>
+           </div>
+      <ul id="slide-out" class="side-nav">
+      </ul>
+      <!--don't show nav button-->
+      <a href="#" data-activates="slide-out" class="button-collapse"></a>
+      <div class="footer">
+         <div id="imgfooter">
+            <img src="stylesheet/legend.png" width="406" height="65">
+            <div style="display:inline">(Capacity)</div>
+         </div>
+            <div id="author">
+               <p>Created by: Shiqi Wen (swen8@ucsc.edu);&nbsp;&nbsp;&nbsp;
+                  Wei Wei (wwei9@ucsc.edu);&nbsp;&nbsp;&nbsp;(Hongyu Hua hohua@ucsc.edu) </p>
+            </div>
+            <div id="credits">
+               <p> Capacity = total number of seats offered in all classes</p>
+            </div>
+      </div>
+      <script src="script/location_data.js"></script>
+      <script>
+         // Initialize collapse button(show sideNav) by ww
+         $(document).ready(function() {
+           $(".button-collapse").sideNav({
+             menuWidth: 260, // Default is 300
+             edge: 'right', // Choose the horizontal origin
+             closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+             draggable: true // Choose whether you can drag to open on touch screens
+           });
+         });
+           $(document).ready(function(){
+            $('.collapsible').collapsible();
+              });
+
+            $('.collapsible').collapsible({
+            accordion: false, // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+            onOpen: function(el) { alert('Open'); }, // Callback for Collapsible open
+            onClose: function(el) { alert('Closed'); } // Callback for Collapsible close
+          });
+
+          var dayValue = document.getElementById("courses-variable").value;
+          var startTime = document.getElementById("start-time").value;
+          var endTime = document.getElementById("end-time").value;
+          var dataCleared = 0;
+          var markerCleared = 1;
+          $.ajaxSetup({
+             async: false
+         });
+
+         //  function: showNavinfo by ww
+          function showNavinfo() {
+            $('.button-collapse').sideNav('show');
+          }
+
+         //Create the map
+         function initMap() {
+             var myLatlng = {lat: 36.993770, lng: -122.058924};
+             var map = new google.maps.Map(document.getElementById('map'), {
+                 zoom: 15,
+                 center: myLatlng,
+                 maxZoom: 17,
+                 minZoom: 13,
+                 styles: [
+                   {
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#ebe3cd"
+                       }
+                     ]
+                   },
+                   {
+                     "elementType": "labels.text.fill",
+                     "stylers": [
+                       {
+                         "color": "#523735"
+                       }
+                     ]
+                   },
+                   {
+                     "elementType": "labels.text.stroke",
+                     "stylers": [
+                       {
+                         "color": "#f5f1e6"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "administrative",
+                     "elementType": "geometry.stroke",
+                     "stylers": [
+                       {
+                         "color": "#c9b2a6"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "administrative.land_parcel",
+                     "elementType": "geometry.stroke",
+                     "stylers": [
+                       {
+                         "color": "#dcd2be"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "administrative.land_parcel",
+                     "elementType": "labels.text.fill",
+                     "stylers": [
+                       {
+                         "color": "#ae9e90"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "landscape.natural",
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#dfd2ae"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "poi",
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#dfd2ae"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "poi",
+                     "elementType": "labels.text.fill",
+                     "stylers": [
+                       {
+                         "color": "#93817c"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "poi.park",
+                     "elementType": "geometry.fill",
+                     "stylers": [
+                       {
+                         "color": "#a5b076"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "poi.park",
+                     "elementType": "labels.text.fill",
+                     "stylers": [
+                       {
+                         "color": "#447530"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "road",
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#f5f1e6"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "road.arterial",
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#fdfcf8"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "road.highway",
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#f8c967"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "road.highway",
+                     "elementType": "geometry.stroke",
+                     "stylers": [
+                       {
+                         "color": "#e9bc62"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "road.highway.controlled_access",
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#e98d58"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "road.highway.controlled_access",
+                     "elementType": "geometry.stroke",
+                     "stylers": [
+                       {
+                         "color": "#db8555"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "road.local",
+                     "elementType": "labels.text.fill",
+                     "stylers": [
+                       {
+                         "color": "#806b63"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "transit.line",
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#dfd2ae"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "transit.line",
+                     "elementType": "labels.text.fill",
+                     "stylers": [
+                       {
+                         "color": "#8f7d77"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "transit.line",
+                     "elementType": "labels.text.stroke",
+                     "stylers": [
+                       {
+                         "color": "#ebe3cd"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "transit.station",
+                     "elementType": "geometry",
+                     "stylers": [
+                       {
+                         "color": "#dfd2ae"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "water",
+                     "elementType": "geometry.fill",
+                     "stylers": [
+                       {
+                         "color": "#b9d3c2"
+                       }
+                     ]
+                   },
+                   {
+                     "featureType": "water",
+                     "elementType": "labels.text.fill",
+                     "stylers": [
+                       {
+                         "color": "#92998d"
+                       }
+                     ]
+                   }
+                 ]
+             });
+                   var ee = document.getElementById("class-title");
+                   var ff = document.getElementById("events-title");
+                   ff.style.display = 'none';
+                   ee.style.display = 'block';
+                  getData('',7,22);
+                  createCircle(70);
+
+                  var allowedBounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(36.946140, -122.090920),
+                    new google.maps.LatLng(37.009562, -122.011150));
+
+                  // Listen for the dragend event
+                  google.maps.event.addListener(map, 'dragend', function() {
+                    if (allowedBounds.contains(map.getCenter())) return;
+                    // Out of bounds - Move the map back within the bounds
+                    var c = map.getCenter(),
+                        x = c.lng(),
+                        y = c.lat(),
+                        maxX = allowedBounds.getNorthEast().lng(),
+                        maxY = allowedBounds.getNorthEast().lat(),
+                        minX = allowedBounds.getSouthWest().lng(),
+                        minY = allowedBounds.getSouthWest().lat();
+
+                    if (x < minX) x = minX;
+                    if (x > maxX) x = maxX;
+                    if (y < minY) y = minY;
+                    if (y > maxY) y = maxY;
+
+                    map.setCenter(new google.maps.LatLng(y, x));
+                  });
+
+
+                   showClasses= function(){
+                      clearMarkers();var a = document.getElementById("select");
+                      var e = document.getElementById("class-title");
+                      var f = document.getElementById("events-title");
+                      a.style.display = 'block';
+                      f.style.display = 'none';
+                      e.style.display = 'block';
+                      if(dataCleared) {
+                          getData(dayValue, startTime, endTime);
+                          if (map.getZoom() === 15) {
+                              createCircle(70)
+                          }
+                          else if (map.getZoom() === 16) {
+                              createCircle(40)
+                          }
+                          else if (map.getZoom() === 17) {
+                              createCircle(25)
+                          }
+                          else {
+                              createCircle(70)
+                          }
+                         dataCleared=0;
+                         markerCleared=1;
+                      }
+                   };
+
+
+                  var rectangle1 = new google.maps.Rectangle({
+                   strokeColor: '#FF0000',
+                   strokeOpacity: 0.8,
+                   strokeWeight: 2,
+                   fillOpacity: 0,
+                   map: map,
+                   bounds: {
+                     north: 36.953233,
+                     south: 36.949,
+                     east:  -122.06001,
+                     west: -122.0696
+                   }
+                 });
+
+                  var rectangle2 = new google.maps.Rectangle({
+                   strokeColor: '#FF0000',
+                   strokeOpacity: 0.8,
+                   strokeWeight: 2,
+                   fillOpacity: 0,
+                   map: map,
+                   bounds: {
+                     north: 36.972784,
+                     south: 36.969144,
+                     east: -122.001267,
+                     west: -122.007168
+                   }
+                 });
+
+          //If "courses-variable" changes, delete all circles and create new ones
+            google.maps.event.addDomListener(document.getElementById("courses-variable"), 'change', function() {
+            dayValue = document.getElementById("courses-variable").value;
+                     clearData();
+                     getData(dayValue,startTime,endTime);
+                     if (map.getZoom() === 15) {
+                         createCircle(70)
+                     }
+                     else if (map.getZoom() === 16) {
+                         createCircle(40)
+                     }
+                     else if (map.getZoom() === 17) {
+                         createCircle(25)
+                     }
+                     else{
+                         createCircle(70)
+                     }
+
+                  });
+
+           //If "start-time" changes, delete all circles and create new ones
+            google.maps.event.addDomListener(document.getElementById("start-time"), 'change', function() {
+                     startTime = document.getElementById("start-time").value;
+                     clearData();
+                     getData(dayValue,startTime,endTime);
+                     if (map.getZoom() === 15) {
+                         createCircle(70)
+                     }
+                     else if (map.getZoom() === 16) {
+                         createCircle(40)
+                     }
+                     else if (map.getZoom() === 17) {
+                         createCircle(25)
+                     }
+                     else{
+                         createCircle(70)
+                     }
+            });
+
+            google.maps.event.addDomListener(document.getElementById("end-time"), 'change', function() {
+                     endTime = document.getElementById("end-time").value;
+                     clearData();
+                     getData(dayValue,startTime,endTime);
+                     if (map.getZoom() === 15) {
+                         createCircle(70)
+                     }
+                     else if (map.getZoom() === 16) {
+                         createCircle(40)
+                     }
+                     else if (map.getZoom() === 17) {
+                         createCircle(25)
+                     }
+                     else{
+                         createCircle(70)
+                     }
+         });
+
+            // If zoom changes, delete all circles and create new ones
+            google.maps.event.addListener(map, 'zoom_changed', function() {
+                for(var mm in window.allCircles) {
+                    window.allCircles[mm].setMap(null);
+                  }
+                for(var ii in window.marginCircles){
+                   window.marginCircles[ii].setMap(null);
+                  }
+                if(map.getZoom()<=17) {
+                    for (var i in window.allCircles) {
+                        window.allCircles[i].setMap(null);
+                    }
+                    if (map.getZoom() === 15) {
+                        createCircle(70)
+                    }
+                    else if (map.getZoom() === 16) {
+                        createCircle(40)
+                    }
+                    else if (map.getZoom() === 17) {
+                        createCircle(25)
+                    }
+                    else{
+                        createCircle(70)
+                    }
+                }
+            });
+
+            function createCircle(rr) {
+                 markerCleared = 1;
+                 window.allCircles = [];
+                 window.marginCircles= [];
+                 for (var location in UCSC_locations) {
+                   var color = [];
+                   var opacity= 0.35;
+                      var pp = UCSC_locations[location].population;
+                      var cs =UCSC_locations[location].classes;
+                   if(pp>0) {
+                     if (pp<=100){
+                         color[0] = 10-10*pp/100;
+                         color[1] = 100;
+                         color[2] =40;
+                         opacity= 0.6+0.1*pp/100;
+
+
+                     }
+                     else if (pp<=300){
+                         color[0] = 15-5* (pp-100) /200;
+                         color[1] = 100;
+                         color[2] = 45 - 5 * (pp-100) /200;
+                         opacity= 0.5+0.1*(pp-100)/200;
+
+
+                     }
+                     else if (pp<=500){
+                         color[0] = 25-10*(pp-300)/200;
+                         color[1] = 100;
+                         color[2] = 45;
+                         opacity= 0.4+0.1*(pp-300)/200;
+
+
+                     }
+                     else if(pp<=1000){
+                         color[0] = 35-10* (pp-500) /500;
+                         color[1] = 100;
+                         color[2] = 55-10*(pp-500)/500;
+                         opacity= 0.4;
+
+                     }
+                     else if(pp<=1500){
+                         color[0] = 45-15*(pp-1000)/500;
+                         color[1] = 100;
+                         color[2] = 65 - 10 * (pp-1000) /500;
+                         opacity= 0.4;
+                     }
+                     else if(pp<=2500){
+                         color[0] = 65-15*(pp-1500)/1000;
+                         color[1] = 100;
+                         color[2] = 80 - 5*(pp-1500)/1000;
+                         opacity= 0.4;
+                     }
+                     else if(pp<=3500){
+                         color[0] = 85-20*(pp-2500)/1000 ;
+                         color[1] = 100;
+                         color[2] = 75+5*(pp-2500)/1000;
+                         opacity= 0.3;
+                     }
+                     else if(pp<=5000){
+                         color[0] = 113-28*(pp-3500)/2500;
+                         color[1] = 100;
+                         color[2] = 75;
+                         opacity= 0.3;
+                     }
+                     else if(pp<=7000){
+                         color[0] = 113;
+                         color[1] = 100;
+                         color[2] = 55+20*(pp-5000)/2000;
+                         opacity= 0.3;
+                     }
+
+                     color = 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)';
+                     var locationCircle = new google.maps.Circle({
+                         strokeOpacity: 0.7,
+                         strokeWeight: 0.8,
+                         fillColor: color,
+                         fillOpacity: opacity,
+                         map: map,
+                         center: UCSC_locations[location].center,
+                         radius: rr,
+                         information: "Capacity in total: "+pp,
+                         classes: cs,
+                         index:location,
+         //                         infowindow: new google.maps.InfoWindow({
+         //                             content: JSON.stringify(pp),
+         //                             position: UCSC_locations[location].center
+         //                           })
+                     });
+                     var marginCircle = new google.maps.Circle({
+                         strokeColor: '#ffffff',
+                         strokeOpacity: 1,
+                         strokeWeight: 3,
+                         fillColor: color,
+                         index:location,
+                         fillOpacity: 0.7,
+                         center: UCSC_locations[location].center,
+                         radius: rr*1.1
+                     });
+                     window.allCircles.push(locationCircle);
+                     window.marginCircles.push(marginCircle);
+
+                     google.maps.event.addListener(locationCircle, 'mouseover', function () {
+                          for (var ii in window.marginCircles){
+                              if (window.marginCircles[ii].index==this.index){
+                                  window.marginCircles[ii].setMap(map)
+                              }
+                          }
+                           });
+                     google.maps.event.addListener(locationCircle, 'mouseout', function() {
+                          for (var ii in window.marginCircles){
+                              window.marginCircles[ii].setMap(null)
+                          }
+                           });
+
+                     locationCircle.addListener('click', function() {
+                           removeNodes();
+                           var totalDiv = document.createElement("li");
+                           totalDiv.style.cssText = 'margin-top:0.5em;margin-left: 0; line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;font-style: italic;';
+                           var totalText=  document.createTextNode(this.information);
+                           var currentDiv = document.getElementById("slide-out");
+                           totalDiv.appendChild(totalText);
+                           currentDiv.appendChild(totalDiv);
+                       for(var ii in this.classes){
+                           var cc= this.classes[ii];
+                           var subjectDiv= document.createElement("li");
+                           subjectDiv.style.cssText = 'margin-top:1.2em;line-height: 1.4em;color:#3399ff;font-size:1em;font-family: "Roboto", "Arial", sans-serif;';
+                           var classNumberDiv= document.createElement("li");
+                           classNumberDiv.style.cssText = 'margin-top:0;line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;';
+                           var classNameDiv= document.createElement("li");
+                           classNameDiv.style.cssText = 'margin-top:0;line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;';
+                           var dayAndTimeDiv= document.createElement("li");
+                           dayAndTimeDiv.style.cssText = 'margin-top:0;line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;';
+                           var capacityDiv= document.createElement("li");
+                           capacityDiv.style.cssText = 'margin-top:0;line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;';
+                           var locationDiv= document.createElement("li");
+                           locationDiv.style.cssText = 'margin-top:0;line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;';
+                           var subjectText = document.createTextNode("Subject: " + cc['Subject']);
+                           var classNumberText = document.createTextNode("Class number: "+cc['Class number']);
+                           var classNameText = document.createTextNode(cc['Class name']);
+                           var dayAndTimeText = document.createTextNode(cc['Day and time']);
+                           var capacityText = document.createTextNode("Capacity: "+ cc['Capacity']);
+                           var locationText = document.createTextNode(cc['Location']);
+
+                           subjectDiv.appendChild(subjectText);
+                           classNameDiv.appendChild(classNameText);
+                           classNumberDiv.appendChild(classNumberText);
+                           dayAndTimeDiv.appendChild(dayAndTimeText);
+                           capacityDiv.appendChild(capacityText);
+                           locationDiv.appendChild(locationText);
+                           currentDiv.appendChild(subjectDiv);
+                           currentDiv.appendChild(classNumberDiv);
+                           currentDiv.appendChild(classNameDiv);
+                           currentDiv.appendChild(dayAndTimeDiv);
+                           currentDiv.appendChild(locationDiv);
+                           currentDiv.appendChild(capacityDiv);
+                       }
+                     showNavinfo();
+                     });
+                   }
+             }
+         }
+
+                  creatMarker= function(){
+                    window.allMarkers = [];
+                    clearData();
+                    $.getJSON("data/data4444444.json", function (eventElement) {
+                        $.each(eventElement, function (key, val) {
+                             for (var ii in UCSC_locations) {
+                                 if (val.location.search(UCSC_locations[ii].Location)!= -1) {
+                                     var temp = {};
+                                     UCSC_locations[ii].eventsNum++;
+                                     UCSC_locations[ii].events = Array.from(UCSC_locations[ii].events);
+                                     temp['Title'] = val.title;
+                                     temp['Date'] = val.date;
+                                     temp['Content'] = val.content;
+                                     temp['Link'] = val.eventlink;
+                                     temp['Image'] = val.eventImage;
+                                     UCSC_locations[ii].events.push(temp);
+                                 }
+                             }
+                        })
+                    });
+                    for(var location in UCSC_locations) {
+                       if(UCSC_locations[location].eventsNum>0) {
+                               var marker = new google.maps.Marker({
+                                   position: UCSC_locations[location].center,
+                                   map: map,
+                                   label: UCSC_locations[location].eventsNum > 1 ? String(UCSC_locations[location].eventsNum) : '',
+                                   events: UCSC_locations[location].events,
+                                   title: 'event',
+                                   infowindow: new google.maps.InfoWindow({
+                                       content: UCSC_locations[location].Location,
+                                       position: UCSC_locations[location].center
+                                   })
+                               });
+                               window.allMarkers.push(marker);
+                               google.maps.event.addListener(marker, 'mouseover', function () {
+                                  this.infowindow.open(map,this);
+                               });
+                                    google.maps.event.addListener(marker, 'mouseout', function() {
+                                  this.infowindow.close(map,this);
+                               });
+                               google.maps.event.addListener(marker, 'click', function () {
+                                  removeNodes();
+                                  for(var ii in this.events) {
+                                    var cc= this.events[ii];
+                                    var imageDiv= document.createElement("li");
+                                    imageDiv.style.cssText = 'margin-top:2em;line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;';
+                                    var img= document.createElement('img');
+                                    var titleDiv= document.createElement('li');
+                                     titleDiv.style.cssText = 'margin-top:0;line-height: 1.3em;color:#ff6600;font-size:1.5em;font-family: "Roboto", "Arial", sans-serif;';
+                                    var dateDiv= document.createElement('li');
+                                    dateDiv.style.cssText = 'margin-top:0.3em;line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;font-weight:bold;';
+                                    var contentDiv= document.createElement('li');
+                                    contentDiv.style.cssText = 'margin-top:0;line-height: 1.5em;font-size:1em;font-family: Arial, Helvetica, sans-serif;font-style: oblique;';
+                                    var linkDiv= document.createElement('a');
+                                    linkDiv.style.cssText = 'margin-top:0.3em;margin-left:-2em;text-decoration: underline;line-height: 1.5em;font-size:1em;font-family: "Roboto", "Arial", sans-serif;color:#3399ff;';
+                                    var titleText = document.createTextNode(cc['Title']);
+                                    var dateText = document.createTextNode(cc['Date']);
+                                    var contentText = document.createTextNode(cc['Content']);
+                                    var linkText = document.createTextNode("See detail");
+                                    linkDiv.href=cc['Link'];
+                                    if (cc['Image']==="null"){
+                                        img.src = "http://static.ucsc.edu/_responsive/images/logos/ucsc-logotype.svg"
+                                    }
+                                    else {
+                                        img.src = cc['Image'];
+                                    }
+                                    img.width = '100';img.height = '100';
+                                    imageDiv.appendChild(img);
+                                    titleDiv.appendChild(titleText);
+                                    dateDiv.appendChild(dateText);
+                                    contentDiv.appendChild(contentText);
+                                    linkDiv.appendChild(linkText);
+                                    var currentDiv = document.getElementById("slide-out");
+                                    currentDiv.appendChild(imageDiv);
+                                    currentDiv.appendChild(titleDiv);
+                                    currentDiv.appendChild(dateDiv);
+                                    currentDiv.appendChild(contentDiv);
+                                    currentDiv.appendChild(linkDiv);
+
+                                  }
+                                  showNavinfo();
+                               });
+
+                       }
+                    }
+                  }
+         }
+
+                    getData = function(a,b,c){
+                    $.getJSON("data/data11111111.json", function (classElement) {
+                        $.each(classElement, function (key, val) {
+                            if (val.Day_And_Time.search(a) != -1 && val.starttime>=b && val.endtime<=c){
+                                for (var location in UCSC_locations) {
+                                    if (val.Class_Location.search(UCSC_locations[location].Location) != -1){
+                                        var temp = {};
+                                        UCSC_locations[location].population += val.Capacity;
+                                        UCSC_locations[location].classes= Array.from(UCSC_locations[location].classes);
+                                        temp['Subject']=val.Subject;
+                                        temp['Class number']= val.Class_Number;
+                                        temp['Day and time']= val.Day_And_Time;
+                                        temp['Class name']= val.Class_name;
+                                        temp['Capacity']= val.Capacity;
+                                        temp['Location']= val.Class_Location;
+                                        UCSC_locations[location].classes.push(temp);
+                                    }
+                                }
+                            }
+                        })
+                     });
+                  };
+
+                           clearData= function(){
+                             removeNodes();
+                             for(var ii in UCSC_locations){
+                             UCSC_locations[ii].population = 0;
+                             UCSC_locations[ii].classes = [];
+                             UCSC_locations[ii].events=[];
+                             UCSC_locations[ii].eventsNum= 0;
+                             }
+                             for(var i in window.allCircles) {
+                                  window.allCircles[i].setMap(null);
+                             }
+                             for(var a in window.marginCircles){
+                                 window.marginCircles[a].setMap(null);
+                             }
+                           };
+
+                           showEvents=function(){
+                              if (markerCleared) {
+                                  var a = document.getElementById("select");
+                                  var e = document.getElementById("class-title");
+                                  var f = document.getElementById("events-title");
+                                  a.style.display = 'none';
+                                  e.style.display = 'none';
+                                  f.style.display = 'block';
+                                  dataCleared = 1;
+                                  markerCleared=0;
+                                  creatMarker();
+                              }
+                           };
+
+                           clearMarkers= function(){
+                             removeNodes();
+                             for (var i in window.allMarkers) {
+                                 window.allMarkers[i].setMap(null);
+                               }
+                           };
+
+                            //remove all children of the node.
+                           removeNodes= function(){
+                               var myNode = document.getElementById("slide-out");
+                               while (myNode.firstChild) {
+                                  myNode.removeChild(myNode.firstChild);
+                               }
+                           }
+
+
+      </script>
+      <script async defer
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiRRPyv19TADLDHpnAdMEpO5ORBtM7iYo&callback=initMap"></script>
+   </body>
+</html>
