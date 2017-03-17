@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+        <title>CMPS263 Project</title>
+
+        <script src="echarts.min.js"></script>
+        <script src="jquery-3.1.1.min.js"></script>
+        <script>
+            var e_provinces = ['Shanghai', 'Hebei', 'Shanxi', 'Inner mongolia', 'Liaoning', 'Jilin', 'Heilongjiang', 'Jiangsu', 'Zhejiang', 'Anhui', 'Fujian', 'Jiangxi', 'Shandong', 'Henan', 'Hubei', 'Hunan', 'Guangdong', 'Guangxi', 'Hainan', 'Sichuan', 'Guizhou', 'Yunnan', 'Tibet', 'Shaanxi', 'Gansu', 'Qinghai', 'Ningxia', 'Xinjiang', 'Beijing', 'Tianjin', 'Chongqing'];
+            var c_provinces = ['上海', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江', '江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东', '广西', '海南', '四川', '贵州', '云南', '西藏', '陕西', '甘肃', '青海', '宁夏', '新疆', '北京', '天津', '重庆'];
+            var index;
+            function translate(chinese) {
+                for (var i = 0; i < c_provinces.length; i++) {
+                    if (chinese == c_provinces[i]) {
+                        index = i;
+                        return index;
+                    } else if (chinese == e_provinces[i]) {
+                        index = i;
+                        return index;
+                    }
+                }
+            }
+        </script>
+        <style type="text/css">
+            h1{text-align:center;}
+
+            #china {
+                float: left;
+                width: 600px;
+                height: 500px
+            }
+
+            #province {
+                float: left;
+                width: 600px;
+                height: 500px
+            }
+        </style>
+    </head>
+    <body>
+      <!--header==================================================================-->
+      <div class="navbar-fixed">
+              <nav class="grey darken-1">
+                  <div class="nav-wrapper">
+                      <a class="brand-logo center" style="margin: 0px 0px 0px 10px; font-family: 'Gorge'">China Population Density,2014(Provinces & Counties)
+                      </a>
+
+                      <ul class="right">
+                          <li>
+                              <form class="grey darken-2">
+                                  <div class="input-field ">
+
+
+
+                                  </div>
+                              </form>
+                          </li>
+                          <!-- Dropdown Trigger -->
+
+                      </ul>
+
+
+
+                      <ul class="side-nav" id="mobile-demo">
+
+                      </ul>
+                  </div>
+              </nav>
+          </div>
+          <!--/ part==================================================================-->
+                <div class="container-fluid">
+                  <!--
+                  <h1 align="center">This is our project</h1>
+                  -->
+                  <div class="row">
+                    <!-- <div class="col-md-1">
+                    </div> -->
+                    <!-- <div class="col-md-5"> -->
+                      <div id="china"></div>
+                    <!-- </div> -->
+                    <!-- <div class="col-md-5"> -->
+                      <div id="province"></div>
+                    <!-- </div> -->
+                    <!-- <div class="col-md-1">
+                    </div> -->
+                  </div>
+                  <div class="row">
+                    <!-- <h2 class="brand-logo center" style="margin: 0px 0px 0px 10px; font-family: 'Gorge'">This is our story</h2> -->
+                    <h5 class="brand-logo " style="margin: 0px 0px 0px 10px; font-family: 'Gorge'">
+
+<br>The People's Republic of China is the world's fourth largest country (by total area), and one of only five remaining Communist states in the world. It has a population of 1.35 billion.</br>
+<br>
+The most densely populated provinces are in the east: Jiangsu (767 persons per square kilometer), Shandong (611 persons per square kilometer), Guangdong (580 persons per square kilometer), and Henan (568 persons per square kilometer). Shanghai was the most densely populated municipality at 3,631 persons per square kilometer. The least densely populated areas are in the west, with the Tibet Autonomous Region having the lowest density at only 2 persons per square kilometer.
+Taiwan, Penghu, Quemoy and Matsu Islands which is entirely under the administration of the Republic of China (ROC), but is claimed by the People's Republic of China (PRC), is excluded from this list.
+</br>
+
+</h5>
+                  </div>
+                </div>
+                <!--footer part==================================================================-->
+                      <footer class="page-footer grey darken-1">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col l6 m6 s12">
+                                    <h5 class="white-text" style="font-family: 'Trocchi', serif;">Related Resource</h5>
+                                    <ul>
+                                  <li>
+                                      <span class="fa-stack fa-inverse">
+                                      <i class="fa fa-square-o fa-stack-2x"></i>
+                                      <i class="fa fa-facebook fa-stack-1x"></i>
+                                    </span>
+                                      <a class="grey-text text-lighten-3" href="http://tongji.cnki.net/kns55/Navi/YearBook.aspx?id=N2016030128&floor=1###">Data Source</a>
+                                  </li>
+                                    <li>
+                                        <span class="fa-stack fa-inverse">
+                                      <i class="fa fa-square-o fa-stack-2x"></i>
+                                      <i class="fa fa-linkedin fa-stack-1x"></i>
+                                    </span>
+                                        <a class="grey-text text-lighten-3" href="https://ecomfe.github.io/echarts-doc/public/en/index.html">Visualization</a>
+                                    </li>
+                                  <!-- <li>
+                                      <span class="fa-stack fa-inverse">
+                                      <i class="fa fa-square-o fa-stack-2x"></i>
+                                      <i class="fa fa-google-plus-square fa-stack-1x"></i>
+                                    </span>
+                                      <a class="grey-text text-lighten-3" href="">Google+</a>
+                                  </li>
+                                  <li>
+                                      <span class="fa-stack fa-inverse">
+                                      <i class="fa fa-square-o fa-stack-2x"></i>
+                                      <i class="fa fa-university fa-stack-1x"></i>
+                                    </span>
+                                      <a class="grey-text text-lighten-3" href="">UCSC</a>
+                                  </li> -->
+                                </ul>
+                                </div>
+                                <div class="col l6 m6 s12">
+                                  <h5 class="white-text" style="font-family: 'Trocchi', serif;">Team Member</h5>
+                                  <ul>
+                                <li>
+                                    <span class="fa-stack fa-inverse">
+                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x"></i>
+                                  </span>
+                                    <a class="grey-text text-lighten-3">WenBo Zhao &nbsp;&nbsp;&nbsp;Email: wzhao17@ucsc.edu</a>
+                                </li>
+                                  <li>
+                                      <span class="fa-stack fa-inverse">
+                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x"></i>
+                                  </span>
+                                      <a class="grey-text text-lighten-3">XiaoXu Hu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email: xhu46@ucsc.edu</a>
+                                  </li>
+                                  <li>
+                                      <span class="fa-stack fa-inverse">
+                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x"></i>
+                                  </span>
+                                      <a class="grey-text text-lighten-3">YiFan Xu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email: yxu103@ucsc.edu</a>
+                                </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </footer>
+
+        <script>
+            //读取json中的中国数据
+            var data = new Array();
+            var temp;
+             $.getJSON('Eng-Density.json',function(getData){
+               $.each(getData,function(obj){
+                 temp = {'name':obj,'value':this.all};
+                 data.push(temp);
+               });
+            });
+            //
+            var c_chart = echarts.init(document.getElementById('china'));
+            $.get('map/json/china.json', function(chinaJson) {
+                echarts.registerMap('china', chinaJson);
+                var option = {
+                    visualMap: {
+                      min: 100,
+                      max: 1000,
+                        right:0,
+                        bottom:'bottom',
+                        padding:[5,0,5,5],
+                        text:['Density:'],
+                      },
+
+                    tooltip:{
+                      trigger:'item',
+                      backgroundColor:'rgba(250,250,250,0.9)',
+                      formatter: '{b}<br/>{c}',
+                      textStyle:{
+                        color:'black',
+                      },
+                    },
+                    series: [
+                      {
+                        type: 'map',
+                        map: 'china',
+                        data:data,
+                    },
+                    {
+                      type: 'scatter',
+                      coordinateSystem: 'geo',
+                      data: [{name:'Wuhan',value:[114.31,30.52]}],
+                      symbolSize: 5,
+                      symbolRotate: 35,
+                      itemStyle: {
+                          normal: {
+                          color: '#F06C00'
+               }
+           }
+        },
+                  ]
+                };
+            c_chart.setOption(option);
+            });
+
+            //点击函数
+            var c_city;
+            var e_city;
+
+            var temp1;
+            function click(){
+              c_chart.on('click', function(params) {
+                  c_city = params.name;
+                  e_city = e_provinces[translate(params.name)];
+                  // var upper = e_city.toUpperCase();
+
+                  var data1 = new Array();
+                  var temp;
+                   $.getJSON('Eng-Density.json',function(getData){
+                     temp1 = getData[e_city];
+                      $.each(temp1,function(obj,value){
+                        temp = {'name':obj,'value':value};
+                        data1.push(temp);
+                      });
+                  });
+
+
+                  $.get('map/json/' + e_city + '.json', function(geoJson) {
+                      echarts.registerMap(c_city, geoJson);
+                      var p_chart = echarts.init(document.getElementById('province'));
+                      p_chart.setOption({
+                        title:{
+                          text:e_city,
+                          bottom:'bottom',
+                          left:'center',
+                        },
+                        visualMap: {
+                            min: 100,
+                            max: 1000,
+                            text:['p/km2'],
+                            left:0,
+                            top:'bottom',
+                            padding:[5,5,5,0],
+                          },
+                        tooltip:{
+                          trigger:'item',
+                          backgroundColor:'rgba(250,250,250,0.9)',
+                          formatter: '{b}<br/>{c} (p / km2)',
+                          textStyle:{
+                            color:'black',
+                          },
+                        },
+                          series: [{
+                              type: 'map',
+                              map: c_city,
+                              data:data1,
+                          }]
+                      });
+                  });
+            });
+          };
+
+          click();
+        </script>
+    </body>
+</html>
