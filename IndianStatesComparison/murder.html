@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+<title>Comparison of Indian States - Census 2011</title>
+<body style="background-color: #EEf5DB">
+
+<h1 style="font-family: Lobster, Monospace; text-align: center">Comparison of Indian States - Census 2011</h1>
+<br>
+<br>
+<div style="font-family: Tahoma, Monospace; text-align: center; font-size: 10px">
+     <p>India takes a census every 10 years. The last one was taken in 2011. This project visualizes three attributes of the census, namely the 'Population', 'Literacy' and 'Employment'.</p>
+     <p>In terms of Population, <b>Uttar Pradesh</b> comes first with 200 million and <b>Sikkim</b> comes last at 0.6 million</p>
+     <p><b>Kerela</b> has the highest literacy rate at 94 % whereas <b>Bihar</b> ranks the lowest at 61.8%</p>
+     <p>As of percent employed out of total population, <b>Himachal Pradesh</b> has highest percentage 51.85% whereas <b>Uttar Pradesh</b> ranks the lowest at 32.9%</p>
+     <p>Last, but the not the least, murders per hundered thousand people is highest for <b>Meghalaya</b> (5.73) and lowest for <b>Kerela</b> (1.09)  
+</div>
+<br>
+
+<div style="text-align: center">
+  <button id="Population" class="btn btn-primary PopButton" onclick="location.href='index.html';">Population</button>
+  <button id="Literacy" class="btn btn-success LiteracyButton" onclick="location.href='literacy.html';">Literacy</button>
+  <button id="Employment" class="btn btn-warning EmploymentButton" onclick="location.href='employed.html';">Employment</button>
+  <button id="Crime" class="btn btn-danger CrimeButton" onclick="location.href='murder.html';">Crime</button> 
+</div>    
+<!-- <p style="padding-left:35px;">The Census 2011 data has revealed an alarming fact that more than 110 million children don't go to school at all. This should be controlled as growth of the nation depends on the educational attainment of the population.</p> -->
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>   
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="murder.js"></script>
+
+<div class='row'>
+        <div id="footer">
+          <div class="container">
+            <div class="row-1">
+              <h4>Project by: </h4>
+                  Umang Sardesai in collaboration with Suresh K Lodha and Yujie Deng<br>
+
+              <h4>Implemented for: </h4> CMPS263, Data Programming for Visualization, Winter 2017
+            </div>
+            <div class="col-sm-4">
+              <h4>
+                Files:
+              </h4>
+              <div class="foot-links">
+                  <li>index.html</li>
+                  <li>style.css</li>
+                  <li>mapscript.js</li>
+                  <li>indiaDST.json</li>
+                  <li>indiaST.json</li>
+                  <li>README.md</li>
+
+              </div>
+            </div><!--/col-sm-3-->
+            <div class="col-sm-4">
+              <h4>Data Sources:</h4>
+              <div class="foot-links">
+                <a href="http://www.censusindia.gov.in/2011-Common/CensusData2011.html" target="_blank" >The 2011 Census of India</a>
+                <a href="https://github.com/datameet/maps" target="_blank" >The Shape Files from DataMeet</a>
+                <a href="https://data.gov.in" target="_blank" >data.gov.in</a>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <h4>Code Sources:</h4>
+              <div class="foot-links">
+                <a href="https://bl.ocks.org/mbostock/5562380" target="_blank">bl.ocks.org/mbostock</a>
+                <a href="http://www.tnoda.com/blog/2013-12-07" target="_blank">tnoda</a>
+                <a href="https://visual.ly/us-map-choropleth-bar-chart?view=true" target="_blank">visual.ly</a>
+                <a href="https://getbootstrap.com/javascript/#modals" target="_blank">getbootstrap.com/javascript/#modals</a>
+                <a href="https://harvesthq.github.io/chosen/" target="_blank">harvesthq.github.io/chosen</a>
+                <a href="https://amylavara.github.io/Out-of-School-Children-In-India" target="_blank">amylavara.github.io/Out-of-School-Children-In-India/</a>
+              </div>
+            </div>
+          </div><!--/container-->
+        </div><!--/footer-->
+      </div><!--/row-->
+
+
+</body>
+</html>
