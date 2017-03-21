@@ -1,0 +1,30 @@
+Company,new_foreign_worker_count,offices_states
+COGNIZANT TECHNOLOGY SOLUTIONS US CORPORATION,4271,"['TX', 'NJ']"
+MICROSOFT CORPORATION,3367,"['WA', 'CA', 'NY', 'MA', 'NC', 'TX', 'MN', 'FL', 'AR', 'OR', 'IL', 'GA', 'ND', 'VA', 'NJ', 'NV', 'PA', 'WI', 'MD', 'DC', 'AZ']"
+INTEL CORPORATION,2131,"['OR', 'CA', 'AZ', 'TX', 'WA', 'CO', 'SC', 'ID', 'NM', 'VA']"
+GOOGLE INC.,1768,"['CA', 'WA', 'NY', 'MA', 'PA', 'IL', 'CO', 'IA', 'NC', 'OR', 'TX', 'VA', 'FL']"
+AMAZON CORPORATE LLC,1640,"['WA', 'MA', 'NY', 'CA', 'AZ', 'MI', 'TX', 'VA']"
+INFOSYS LTD.,1181,['TX']
+APPLE INC.,1005,"['CA', 'TX', 'FL', 'NJ', 'NC', 'WA', 'NY', 'MA']"
+"CISCO SYSTEMS, INC.",908,"['CA', 'MI', 'IN', 'TX', 'WA', 'NC', 'FL', 'GA', 'NY', 'MA', 'MD', 'NJ', 'TN', 'VA', 'CO', 'CT', 'AR', 'IL', 'OH', 'PA', 'OR', 'UT']"
+WIPRO LIMITED,847,['NJ']
+"ORACLE AMERICA, INC.",775,"['CA', 'IL', 'VA', 'NH', 'WA', 'PA', 'CT', 'MA', 'CO', 'MN', 'UT', 'TX', 'NJ', 'GA', 'NC', 'AZ', 'FL', 'MT', 'OR', 'MD', 'MI', 'OH', 'NY']"
+YAHOO! INC.,741,"['CA', 'IL', 'NY', 'OR', 'TX']"
+"FACEBOOK, INC.",732,"['CA', 'NY', 'WA', 'FL', 'TX']"
+"HOUSE OF RAEFORD FARMS, INC.",723,"['NC', 'SC']"
+DELOITTE CONSULTING LLP,675,"['TX', 'NY', 'PA', 'CA', 'IL', 'CO', 'MO', 'VA', 'MN', 'MI', 'GA', 'MA', 'NJ', 'NC', 'FL', 'WA', 'OH', 'NE', 'CT', 'IN', 'WI', 'OK', 'TN', 'KY']"
+HCL AMERICA INC.,653,"['WA', 'NC', 'NJ', 'TX', 'CA']"
+"IGATE TECHNOLOGIES, INC.",594,['NJ']
+"Defender Services, Inc.",542,"['NC', 'SC']"
+JP MORGAN CHASE & CO,474,"['NY', 'NJ', 'TX', 'IL', 'DE', 'OH', 'AZ', 'CA', 'FL', 'NH', 'MA', 'WA']"
+"ABBYLAND FOODS, INC",432,['WI']
+WAYNE FARMS LLC,421,"['GA', 'NC', 'MS', 'AR']"
+SALESFORCE.COM,411,"['CA', 'WA', 'GA', 'IN', 'VA', 'FL', 'NY', 'OR', 'MA']"
+"NORMAN W. FRIES, INC. D/B/A CLAXTON POULTRY FARMS",375,['GA']
+CAPGEMINI FINANCIAL SERVICES USA INC.,366,['IL']
+ERNST & YOUNG U.S. LLP,355,"['FL', 'NC', 'NY', 'TX', 'VA', 'CA', 'PA', 'NJ', 'CT', 'MA', 'IL', 'WA', 'MI', 'GA', 'KS', 'OH', 'NV', 'WI', 'LA', 'MN', 'AZ', 'MO', 'TN']"
+CASE FARMS PROCESSING INC.,354,"['NC', 'OH']"
+LINKEDIN CORPORATION,347,"['CA', 'NY', 'NE']"
+"MUY PIZZA HOUSTON, LLC",321,"['TX', 'CA']"
+CUMMINS INC.,313,"['IN', 'MN', 'NC', 'TN', 'SC', 'NY']"
+"VMWARE, INC.",308,"['CA', 'CO', 'TX', 'WA', 'MA', 'NY']"

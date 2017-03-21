@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    /* for the menu bar */
+    ul, #subMenu{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #ffebcc;
+        width: 100%;
+        position: relative;
+        display: block;
+    }
+
+    li .clickable{
+        float: left;
+        border-right:1px solid #bbb;
+        border-bottom: 1px solid #bbb;
+        width: 33%;
+    }
+    
+    li .unClickable{
+        float: left;
+        border-right: 1px solid #bbb;
+        border-bottom: 1px solid #bbb;
+        width: 12%;
+    }
+
+    li:last-child {
+        border-right: none;
+    }
+
+    li a {
+        display: block;
+        color: #111;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 20px;
+    }
+
+    li .clickable:hover, #subMenu a:hover {
+        background-color: #ffa31a;
+    }
+    
+    .active {
+        background-color: #ffb84d;
+    }
+    
+    /* for the subMenu */
+
+
+    #subMenu a {
+        float: right;
+        border-right:1px solid #bbb;
+        font-size: 16px;
+        color: #666666;
+        text-align: center;
+        padding: 5px 5px;
+        text-decoration: none;
+    }
+    
+    
+    /* for the drop down content */
+/*
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown a:hover {background-color: #f1f1f1}
+
+    .show {display:block;}
+*/
+
+    /* for the state table */
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        font-size: 15px;
+/*        width: 100%;*/
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 3px;
+        color: black;
+        background-color: #fff7e6;
+    }
+    
+    td:hover {
+        background-color: #ffa31a;
+    }
+    
+    #stateTableDIV {
+        position: absolute;
+/*
+        left: 715px;
+        top: 755px;
+*/
+    }
+    
+    /* to expand the web page downer*/
+/*
+    #lineBreaker {
+        position: relative;
+        left: 100px;
+        top: 800px;
+        color: white;
+    }
+*/
+    /* hightLight some words in Description */
+    .highlightme {
+        font-size:20px;
+        color:darkorange;
+    }
+    
+    /* for the EB wait time Caption */
+    #EBVisaTypeCaption {
+        font-size: 18px;
+        width: "50px";
+        position: absolute;
+        top: 650px;
+        left: 1120px;
+        padding: 10px;
+        line-height: 1.5em;
+        text-align: justify;
+        border: 1px solid black;
+        display: none;
+    }
+    
+    /* for the descrition */
+    #DescriptionDIV {
+        font-size: 18px;
+        text-align: justify;
+        width: 1200px;
+        padding-top: 35px;
+        line-height: 1.5em;
+    }
+    
+    /* for the iframe to be centered */
+/*
+    #comOuterDIV{
+        width:100%;
+        height:100%;
+        margin:0 auto ;
+        overflow:auto;
+    }
+    #PERMbarChartDIV{
+        float:left;
+        width:60%;
+        height:100%;
+    }
+    #PERMchoroplethDIV{
+        height:100%;
+        margin-left:60%;
+    }
+*/
+    
+    /* for data link */
+    a, a:visited{
+         color:coral;
+    }
+    
+    /* for authorInfo */
+    #authorInfoDIV {
+        padding-top: 700px;
+        text-align: left;
+        padding-left: 3%;
+    }
+    
+</style>
+</head>
+
+<body style="background-color:#ffffff;">
+    <center>
+        <p style="font-family:'Palatino Linotype', 'Book Antiqua', Palatino, serif;font-size: 30px;">Pathway from F-1 Student to U.S. Citizen</p>
+        <p style="font-size:20px;">Company and Waiting Time</p>
+    </center>
+    
+    <ul>
+      <li><a class="unClickable">F-1 STUDENT</a></li>
+      <li><a id="H1B"
+             class="clickable"
+             onclick="selectH1BCompany();">H-1B VISA</a></li>
+      <li><a class="clickable"
+             onclick="selectCompany();"
+             id="EB">GREEN CARD</a></li>
+      <li><a class="unClickable">U.S. CITIZEN</a></li>
+    </ul>
+    
+    <center><div id="subMenu"></div></center>
+    <div id="DescriptionDIV"></div>
+    
+    <div id=comOuterDIV>
+        <div id="PERMbarChartDIV"></div>
+        <div id="PERMchoroplethDIV"></div>
+    </div>
+    
+    <div id="EBWTiframeDIV"></div>
+    
+    <div id="barChartTitleDIV"></div>
+    
+    <div id="choroPlethTitleDIV"></div>
+    
+    <div id="stateTableDIV"></div>
+    <div id="EBWTTableDIV"></div>
+    <div id="EBVisaTypeCaption"></div>
+    
+    <div id="authorInfoDIV">
+        <div id="teamMembers">Created by: Yanzhong Li, Ran Xu, Yusheng Fang</div>
+        <div id="acknowledgements">Advised by: Suresh Lodha</div> 
+        <div id="dataSrcLinks">Data Sources: 
+            <a href="https://www.foreignlaborcert.doleta.gov/performancedata.cfm" target="_blank">OFLC Performance Data</a>, 
+            <a href="https://travel.state.gov/content/visas/en/law-and-policy/bulletin/2017/visa-bulletin-for-february-2017.html" target="_blank">Visa Bulletin</a>
+            <a href="https://travel.state.gov/content/dam/visas/family-preference-cut-off-dates/Cut-off_Dates_China_online.pdf" target="_blank">China Final Action Dates</a>
+            <a href="https://travel.state.gov/content/dam/visas/family-preference-cut-off-dates/Cut-off_Dates_India_online.pdf" target="_blank">India Final Action Dates</a>
+            
+        </div>
+        <div id="vizLinks">Visuliazations: 
+            <a href="https://www.bls.gov/oes/current/map_changer.htm" target="_blank">OES Map</a>
+        </div>
+        <div id="gibhubLink"> See complete docs on: 
+            <a href="https://github.com/ericucsc/Employment_Based_Visas_Analysis" target="_blank">Github</a>
+        </div>
+        <div id="dataWReport"> Here is the 
+            <a href="./DataW.pdf" target="_blank">DataW report</a>
+        </div>
+    </div>
+    
+    <div id="hiddenButtonsDIV"</div>
+
+<script>
+    US_STATES = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
+    WT_filenames = ["India_China_EB1.html", "India_China_EB2.html", "India_China_EB3.html", "China_EB_Waiting_time.html", "India_EB_Waiting_time.html"];
+    Abbr_USSTATE = {'WA': 'Washington', 'DE': 'Delaware', 'WI': 'Wisconsin', 'WV': 'West Virginia', 'HI': 'Hawaii', 'FL': 'Florida', 'WY': 'Wyoming', 'NH': 'New Hampshire', 'NJ': 'New Jersey', 'NM': 'New Mexico', 'TX': 'Texas', 'LA': 'Louisiana', 'NC': 'North Carolina', 'ND': 'North Dakota', 'NE': 'Nebraska', 'TN': 'Tennessee', 'NY': 'New York', 'PA': 'Pennsylvania', 'CA': 'California', 'NV': 'Nevada', 'VA': 'Virginia', 'CO': 'Colorado', 'AK': 'Alaska', 'AL': 'Alabama', 'AR': 'Arkansas', 'VT': 'Vermont', 'IL': 'Illinois', 'GA': 'Georgia', 'IN': 'Indiana', 'IA': 'Iowa', 'OK': 'Oklahoma', 'AZ': 'Arizona', 'ID': 'Idaho', 'CT': 'Connecticut', 'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts', 'OH': 'Ohio', 'UT': 'Utah', 'MO': 'Missouri', 'MN': 'Minnesota', 'MI': 'Michigan', 'RI': 'Rhode Island', 'KS': 'Kansas', 'MT': 'Montana', 'MS': 'Mississippi', 'SC': 'South Carolina', 'KY': 'Kentucky', 'OR': 'Oregon', 'SD': 'South Dakota'}
+    
+    // which state's bar graph is currently displaying
+    var curBarState = "CA";
+    // boolean variables for navigation bar hightlighting.
+    var isClicked = false;
+    var isSubMenuCreated = false;
+    var isWTSelected = false;
+    var isComSelected = false;
+    var isH1BComSelected = false;
+    // boolean variables for EB_WaitTime graph switching
+    var isWT_ALL = false;
+    var isWT_EB1 = false;
+    var isWT_EB2 = false;
+    var isWT_EB3 = false;
+    var isWT_BOTH = false;
+    var isWT_CHINA = false;
+    var isWT_INDIA = false;
+    var trueCounter = 0;
+    
+    
+    createSubMenu();
+    
+    /********* enabling the switch table for the bar graph**********/
+    function setClickedaRtrState(state) {
+        isClicked = true;
+        curBarState = state;
+    }
+    function switchTo(toState, visaType) {
+        document.getElementById("PERMbarChart").src = "./output/viz/"+visaType+"_Companies/svg/"+toState+".svg";
+        document.getElementById("stateName").innerHTML = Abbr_USSTATE[toState];
+        
+    }
+    function switchBack(visaType) {
+        if (!isClicked){
+            document.getElementById("PERMbarChart").src = "./output/viz/"+visaType+"_Companies/svg/"+curBarState+".svg";
+        }
+        isClicked = false;
+    }
+    function createStateTable(visaType) {
+        var stateTable = document.createElement("TABLE");
+        stateTable.setAttribute("id", "stateTable")
+        var row1 = stateTable.insertRow(0);
+        row1.setAttribute("id", "row1");
+        var row2 = stateTable.insertRow(1);
+        row2.setAttribute("id", "row2");
+        for(var i = 0; i < 50; i++) {
+            var curMapState = US_STATES[i];
+            var cell;
+            if (i < 25) {
+                cell = row1.insertCell();
+            } else {
+                cell = row2.insertCell();
+            }
+            cell.innerHTML = curMapState;
+            cell.setAttribute("onmouseover", "switchTo('"+curMapState+"', '"+visaType+"')");
+            cell.setAttribute("onmouseout", "switchBack('"+visaType+"')");
+            cell.setAttribute("onclick", "setClickedaRtrState('"+curMapState+"')");
+        }
+        var stateTableDIV = document.getElementById("stateTableDIV");
+        stateTableDIV.appendChild(stateTable);
+        if (visaType == 'H1B') {
+            stateTableDIV.style.left = "715px";
+            stateTableDIV.style.top = "750px";
+        } else if (visaType == 'PERM'){
+            stateTableDIV.style.left = "715px";
+            stateTableDIV.style.top = "750px";
+        }
+    }
+    
+    /***** enable the naviagation bar******/
+    function barSwitch(newTab) {
+        var h1bBar = document.getElementById("H1B");
+        var ebBar = document.getElementById("EB");
+        if (newTab == "H1B") {
+            ebBar.classList.remove("active");
+            h1bBar.classList.add("active");
+        } else if (newTab == "EB") {
+            h1bBar.classList.remove("active");
+            ebBar.classList.add("active");
+        }
+    }
+    function createSubMenu () {
+        if (!isSubMenuCreated) {
+            isSubMenuCreated = true;
+            var subMenu = document.getElementById("subMenu");
+            var comA = document.createElement('a');
+            comA.innerHTML = "Company";
+            comA.setAttribute("id", "comA");
+            comA.setAttribute("onClick", "selectCompany()")
+            comA.style.width = "16%";
+            
+            var wtA = document.createElement('a');
+            wtA.setAttribute("id", "wtA");
+            wtA.innerHTML = "Waiting-Time";
+            wtA.setAttribute("onClick", "selectWT()");
+            wtA.style.width = "16%";
+            
+            var comH = document.createElement('a');
+            comH.setAttribute("id", "comH");
+            comH.innerHTML = "Company";
+            comH.setAttribute("onClick", "selectH1BCompany();");
+            comH.style.width = "31%";
+            
+            var dummyA = document.createElement('a');
+            dummyA.innerHTML = ".";
+            dummyA.style.width = "15%";
+            dummyA.style.color = "#ffebcc";
+            dummyA.style.backgroundColor = "white"
+            var dummyB = document.createElement('a');
+            dummyB.innerHTML = ".";
+            dummyB.style.width = "15.3%";
+            dummyB.style.color = "#ffebcc";
+            dummyB.style.backgroundColor = "white"
+            var dummyC = document.createElement('a');
+            dummyC.innerHTML = ".";
+            dummyC.style.width = "2%";
+            dummyC.style.color = "#ffebcc";
+            dummyC.style.backgroundColor = "white"
+            
+            subMenu.appendChild(dummyA);
+            subMenu.appendChild(wtA);
+            subMenu.appendChild(comA);
+            subMenu.appendChild(dummyC);
+            subMenu.appendChild(comH);
+            subMenu.appendChild(dummyB);
+        }
+    }
+    function deleteSubMenu () {
+        var div = document.getElementById('subMenu');
+        while(div.firstChild){
+            div.removeChild(div.firstChild);
+        }
+        isSubMenuCreated = false;
+    }
+    
+    /***** replacing contents when switching to a new tab *****/
+    function selectCompany() {
+        if (!isComSelected) {
+            isComSelected = true;
+            isWTSelected = false;
+            isH1BComSelected = false;
+            /* highlight and de-highlight the selected subTab */
+            hightLightSubMenuTab('comA');
+            /* highlight the selected menu tab */
+            barSwitch('EB');
+            /* delete elements for EB WaitingTime */
+            delAllEleInDiv("EBWTiframeDIV");
+            delAllEleInDiv("EBWTTableDIV");
+            delAllEleInDiv("hiddenButtonsDIV");
+            delAllEleInDiv("EBVisaTypeCaption");
+            document.getElementById("EBVisaTypeCaption").style.display = "none";
+            /* delete elements of H1B company */
+            delAllEleInDiv("PERMbarChartDIV");
+            delAllEleInDiv("PERMchoroplethDIV");
+            delAllEleInDiv("stateTableDIV");
+            delAllEleInDiv("barChartTitleDIV");
+            delAllEleInDiv("choroPlethTitleDIV");
+            delAllEleInDiv("DescriptionDIV");
+            /* create elements for PERM company */
+            var PERMbarChart = document.createElement("IFRAME");
+            PERMbarChart.setAttribute("id", "PERMbarChart");
+            PERMbarChart.src = "./output/viz/PERM_Companies/svg/CA.svg";
+            PERMbarChart.width = "700";
+            PERMbarChart.height = "500";
+            PERMbarChart.setAttribute("align", "left");
+            PERMbarChart.style.border = "none";
+            document.getElementById("PERMbarChartDIV").appendChild(PERMbarChart);
+            
+            var PERMchoropleth = document.createElement("IFRAME");
+            PERMchoropleth.setAttribute("id", "PERMchoropleth");
+            PERMchoropleth.src = "./output/viz/PERM_Companies/_PERM_Choropleth.html";
+            PERMchoropleth.width = "700";
+            PERMchoropleth.height = "480";
+            PERMchoropleth.setAttribute("align", "left");
+            PERMchoropleth.style.border = "none";
+            document.getElementById("PERMchoroplethDIV").appendChild(PERMchoropleth);
+            
+            createStateTable('PERM');
+            createBarChartTitleDIV('EB');
+            createChoroPlethTitle('EB');
+            createDescription('comA');
+        }
+        
+    }
+    function selectWT() {
+        if (!isWTSelected) {
+            isWTSelected = true;
+            isComSelected = false;
+            isH1BComSelected = false;
+            /* highlight/de-highlight the selected sub menue tab */
+            hightLightSubMenuTab('wtA');
+            /* highlight the selected menu tab */
+            barSwitch('EB');
+            /* delete elements for PERM company or elements for H1B company */
+            delAllEleInDiv("PERMbarChartDIV");
+            delAllEleInDiv("PERMchoroplethDIV");
+            delAllEleInDiv("stateTableDIV");
+            delAllEleInDiv("barChartTitleDIV");
+            delAllEleInDiv("choroPlethTitleDIV");
+            delAllEleInDiv("DescriptionDIV");
+            /* create elements for EB Waiting Time */
+            var EBWTiframe = document.createElement("IFRAME");
+            EBWTiframe.setAttribute("id", "EB_WT");
+            EBWTiframe.src = "./output/viz/EB_WaitingTime/EB2_BOTH.html";
+            EBWTiframe.width = "1000";
+            EBWTiframe.height = "650";
+            EBWTiframe.setAttribute("align", "left");
+            EBWTiframe.style.border = "none";
+            EBWTiframe.style.position = "absolute";
+            EBWTiframe.style.left = "180px";
+            EBWTiframe.style.top = "285px";
+            document.getElementById("EBWTiframeDIV").appendChild(EBWTiframe);
+            
+            createEBWTTable();
+            createDescription('wtA');
+            createEBVisaTypeCaption();
+//            createHiddenButtons();
+        }
+    }
+    function selectH1BCompany() {
+        if (!isH1BComSelected) {
+            isH1BComSelected = true;
+            isWTSelected = false;
+            isComSelected = false;
+            /* Highlight the menu tab */
+            barSwitch('H1B');
+            /* Highlight and de-hightlight the sub menu tab of EB */
+            hightLightSubMenuTab('comH');
+            /* delete elements of PERM company */
+            delAllEleInDiv("PERMbarChartDIV");
+            delAllEleInDiv("PERMchoroplethDIV");
+            delAllEleInDiv("stateTableDIV");
+            delAllEleInDiv("barChartTitleDIV");
+            delAllEleInDiv("choroPlethTitleDIV");
+            /* delete elements of EB Waiting Time */
+            delAllEleInDiv("EBWTiframeDIV");
+            delAllEleInDiv("EBWTTableDIV");
+            delAllEleInDiv("DescriptionDIV");
+            delAllEleInDiv("hiddenButtonsDIV");
+            delAllEleInDiv("EBVisaTypeCaption");
+            document.getElementById("EBVisaTypeCaption").style.display = "none";
+            /* create elements of H1B companies
+               re-use PERM's DIVs for same graphs'*/
+            var H1BbarChart = document.createElement("IFRAME");
+            H1BbarChart.setAttribute("id", "PERMbarChart");
+            H1BbarChart.src = "./output/viz/H1B_Companies/svg/CA.svg";
+            H1BbarChart.width = "700";
+            H1BbarChart.height = "500";
+            H1BbarChart.setAttribute("align", "left");
+            H1BbarChart.style.border = "none";
+            document.getElementById("PERMbarChartDIV").appendChild(H1BbarChart);
+
+            var H1Bchoropleth = document.createElement("IFRAME");
+            H1Bchoropleth.setAttribute("id", "PERMchoropleth");
+            H1Bchoropleth.src = "./output/viz/H1B_Companies/_H1B_Choropleth.html";
+            H1Bchoropleth.width = "700";
+            H1Bchoropleth.height = "480";
+            H1Bchoropleth.setAttribute("align", "left");
+            H1Bchoropleth.style.border = "none";
+            document.getElementById("PERMchoroplethDIV").appendChild(H1Bchoropleth);
+
+            createStateTable('H1B');   
+            createBarChartTitleDIV('H1B');
+            createChoroPlethTitle('H1B');
+            createDescription('comH');
+        }
+    }
+    function delAllEleInDiv(divID) {
+        var someDIV = document.getElementById(divID);
+        while(someDIV.firstChild){
+            someDIV.removeChild(someDIV.firstChild);
+        }
+    }
+    function hightLightSubMenuTab(whichOne) {
+        /* de-hightlight all the sub menu tab of EB */
+        var comA = document.getElementById("comA");
+        var wtA = document.getElementById("wtA");
+        var comH = document.getElementById("comH");
+        comH.classList.remove("active");
+        wtA.classList.remove("active");
+        comA.classList.remove("active");
+        /* Hightlight the right sub menu tab of H1B */
+        if (whichOne == 'comA') {
+            comA.classList.add("active");
+        } else if (whichOne == 'wtA') {
+            wtA.classList.add("active");
+        } else if (whichOne == 'comH') {
+            comH.classList.add("active");
+        }
+    }
+    
+    
+    /*****enable the switch table for EB Waiting time graphs******/
+    function createEBWTTable() {
+        var visaTable = document.createElement("TABLE");
+        visaTable.style.position = "absolute";
+        visaTable.style.top = "300px";
+        visaTable.style.left = "1200px";
+        var countryTable = document.createElement("TABLE");
+        countryTable.style.position = "absolute";
+        countryTable.style.top = "300px";
+        countryTable.style.left = "1250px";
+        
+        var EB1 = visaTable.insertRow(0).insertCell();
+        EB1.innerHTML = "EB1";
+        EB1.setAttribute("id", "EB1_button");
+        EB1.setAttribute("onclick", "WTTable_switch('EB1')");
+        var EB2 = visaTable.insertRow(1).insertCell();
+        EB2.innerHTML = "EB2";
+        EB2.setAttribute("id", "EB2_button");
+        EB2.classList.add("active");
+        EB2.setAttribute("onclick", "WTTable_switch('EB2')");
+        var EB3 = visaTable.insertRow(2).insertCell();
+        EB3.innerHTML = "EB3";
+        EB3.setAttribute("id", "EB3_button");
+        EB3.setAttribute("onclick", "WTTable_switch('EB3')");
+        var ALL = visaTable.insertRow(3).insertCell();
+        ALL.innerHTML = "ALL";
+        ALL.setAttribute("id", "ALL_button");
+        ALL.setAttribute("onclick", "WTTable_switch('ALL')");
+        
+        
+        var CHINA = countryTable.insertRow(0).insertCell();
+        CHINA.innerHTML = "CHINA";
+        CHINA.setAttribute("id", "CHINA_button");
+        CHINA.setAttribute("onclick", "WTTable_switch('CHINA')");
+        var INDIA = countryTable.insertRow(1).insertCell();
+        INDIA.innerHTML = "INDIA";
+        INDIA.setAttribute("id", "INDIA_button");
+        INDIA.setAttribute("onclick", "WTTable_switch('INDIA')");
+        var BOTH = countryTable.insertRow(2).insertCell();
+        BOTH.innerHTML = "BOTH";
+        BOTH.setAttribute("id", "BOTH_button");
+        BOTH.classList.add("active");
+        BOTH.setAttribute("onclick", "WTTable_switch('BOTH')");
+
+        document.getElementById("EBWTTableDIV").appendChild(visaTable);
+        document.getElementById("EBWTTableDIV").appendChild(countryTable);
+    }
+    function switchWTTo(i) {
+        document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/" + WT_filenames[i];
+    }
+    
+    
+    /*****create titles and descriptions for each tab*******/
+    function createBarChartTitleDIV(visaType) {
+        if (visaType == 'H1B'){
+            var mainTitleTop = "790px";
+            var mainTitleLeft = "150px";
+            var subTitleTop = "850px";
+            var subTitleLeft = "145px";
+            var bigStateNameTop = "750px";
+            var bigStateNameLeft = "300px";
+        } else if (visaType == 'EB') {
+            var mainTitleTop = "790px";
+            var mainTitleLeft = "150px";
+            var subTitleTop = "850px";
+            var subTitleLeft = "145px";
+            var bigStateNameTop = "750px";
+            var bigStateNameLeft = "300px";
+        }
+        var mainTitle = document.createElement("p");
+        mainTitle.style.position = "absolute";
+        mainTitle.style.left = mainTitleLeft;
+        mainTitle.style.top = mainTitleTop;
+        mainTitle.style.fontSize = "23px";
+        mainTitle.innerHTML = "Top 30 Foreign-Worker-Friendly Companies";
+        
+//        var subTitle = document.createElement("p");
+//        subTitle.style.position = "absolute";
+//        subTitle.style.left = subTitleLeft;
+//        subTitle.style.top = subTitleTop;
+//        subTitle.style.fontSize = "20px";
+//        subTitle.innerHTML = "(ranked by how many foreign workers they support)";
+//        subTitle.style.paddingBottom = "200px";
+        
+        var bigStateName = document.createElement("p");
+        bigStateName.style.position = "absolute";
+        bigStateName.style.left = bigStateNameLeft;
+        bigStateName.style.top = bigStateNameTop;
+        bigStateName.style.fontSize = "28px";
+        bigStateName.style.color = "#ff9900";
+        bigStateName.setAttribute("id", "stateName");
+        bigStateName.innerHTML = "California";
+        
+        var barChartTitleDIV = document.getElementById("barChartTitleDIV");
+        barChartTitleDIV.appendChild(mainTitle);
+//        barChartTitleDIV.appendChild(subTitle);
+        barChartTitleDIV.appendChild(bigStateName);
+    }
+    function createChoroPlethTitle(visaType) {
+        var mainTitle = document.createElement("p");
+        mainTitle.style.position = "absolute";
+        mainTitle.style.left = "950px";
+        mainTitle.style.fontSize = "23px";
+        mainTitle.style.paddingBottom = "200px";
+        if (visaType == 'H1B') {
+            mainTitle.innerHTML = "H1B applicants in each state";
+            mainTitle.style.top = "790px";
+        } else if (visaType == 'EB') {
+            mainTitle.innerHTML = "PERM (EB-2/3) applicants in each state";
+            mainTitle.style.top = "790px";
+        }
+        
+        document.getElementById("choroPlethTitleDIV").appendChild(mainTitle);
+    }
+    function createDescription(whichTab) {
+        var descriptionDIV = document.getElementById("DescriptionDIV");
+        var mainDescrp = document.createElement("div");
+        
+        if (whichTab == 'comH') {
+            mainDescrp.innerHTML = "<span class='highlightme'>Infosys</span> (4,693 applicants in CA), <span class='highlightme'>Google</span>(3,828 applicants in CA) were the most <span class='highlightme'> Foreign-Worker-Friendly companies</span> in 2016.</br> <span class='highlightme'>California, Texas, New York, Illinois</span> were supporting <span class='highlightme'>most of the foreign workers</span> across the country in 2016.";
+            mainDescrp.style.paddingLeft = "230px";
+        } else if (whichTab == 'wtA') {
+            mainDescrp.innerHTML = "In February 2017, the approximate waiting time for an <span class='highlightme'>Indian</span> EB-2 applicant is <span class='highlightme'>4 years</span> longer than that for a <span class='highlightme'>Chinese</span> applicant."
+            mainDescrp.style.paddingLeft = "230px";
+        } else if (whichTab == 'comA') {
+            mainDescrp.innerHTML = "<span class='highlightme'>California, Texas, New York</span> are the states with <span class='highlightme'>most PERM applicants</span>.</br> <span class='highlightme'>Google, Apple, Intel </span> are most <span class='highlightme'>Foreign-Worder-Friendly</span> companies."
+            mainDescrp.style.paddingLeft = "450px";
+        }
+        descriptionDIV.appendChild(mainDescrp);
+    }
+    
+    
+    /****these 2 functions is no longer used. It was for testing only******/
+    function createHiddenButtons() {
+        var hiddenButtonsDIV = document.getElementById("hiddenButtonsDIV");
+        var initTop = 1000;
+        for (var i = 0; i < 10; i++) {
+            var displayStackedChart = document.createElement("button");
+            displayStackedChart.setAttribute("onclick", "switchWTToHidden("+i+");");
+            displayStackedChart.style.position = "absolute";
+            displayStackedChart.style.left = "1000px";
+            displayStackedChart.style.top = (initTop + i*15) + "px";
+            displayStackedChart.innerHTML = "displayHiddenGraph_" + i;
+            hiddenButtonsDIV.appendChild(displayStackedChart);
+        }
+    }
+    function switchWTToHidden(graphNum) {
+        if (graphNum < 5) {
+            document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/hiddenGraph_"+graphNum+".svg";
+        } else {
+            document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/hiddenGraph_"+graphNum+".html";
+        }
+    }
+    
+    /********* still, enable the switch table for EB_Wait Time graphs  */
+    function WTTable_switch(clickedWhat) {
+        if (trueCounter >= 2) {
+            //reset all booleans
+            isWT_ALL = false;
+            isWT_EB1 = false;
+            isWT_EB2 = false;
+            isWT_EB3 = false;
+            isWT_BOTH = false;
+            isWT_CHINA = false;
+            isWT_INDIA = false;
+            trueCounter = 0;
+        }
+        if (clickedWhat=='ALL') {
+            isWT_ALL = true;
+            trueCounter++;
+            if (isWT_CHINA) {
+                //display ALL, CHINA in iFrame
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/ALL_CHINA.html";
+            } else if (isWT_INDIA) {
+                //display ALL, INIDA in iFrame
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/ALL_INDIA.html";
+            } else if (isWT_BOTH) {
+                //display ALL, BOTH in iFrame
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/ALL_BOTH.html";
+            }
+        } else if (clickedWhat=='EB1') {
+            isWT_EB1 = true;
+            trueCounter++;
+            if (isWT_CHINA) {
+                //display EB1, CHINA in iFrame
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB1_CHINA.html";
+            } else if (isWT_INDIA) {
+                //display EB1, INDIA in iFrame
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB1_INDIA.html";
+            } else if (isWT_BOTH) {
+                //display EB1, BOTH in iFrame
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB1_BOTH.html";
+            }
+        } else if (clickedWhat=='EB2') {
+            isWT_EB2 = true;
+            trueCounter++;
+            if (isWT_CHINA) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB2_CHINA.html";
+            } else if (isWT_INDIA) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB2_INDIA.html";
+            } else if (isWT_BOTH) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB2_BOTH.html";
+            }
+        } else if (clickedWhat=='EB3') {
+            isWT_EB3 = true;
+            trueCounter++;
+            if (isWT_CHINA) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB3_CHINA.html";
+            } else if (isWT_INDIA) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB3_INDIA.html";
+            } else if (isWT_BOTH) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB3_BOTH.html";
+            }
+        } else if (clickedWhat=='CHINA') {
+            isWT_CHINA = true;
+            trueCounter++;
+            if (isWT_ALL) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/ALL_CHINA.html";
+            } else if (isWT_EB1) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB1_CHINA.html";
+            } else if (isWT_EB2) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB2_CHINA.html";
+            } else if (isWT_EB3) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB3_CHINA.html";
+            }
+        } else if (clickedWhat=='INDIA') {
+            isWT_INDIA = true;
+            trueCounter++;
+            if (isWT_ALL) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/ALL_INDIA.html";
+            } else if (isWT_EB1) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB1_INDIA.html";
+            } else if (isWT_EB2) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB2_INDIA.html";
+            } else if (isWT_EB3) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB3_INDIA.html";
+            }
+        } else if (clickedWhat=='BOTH') {
+            isWT_BOTH = true;
+            trueCounter++;
+            if (isWT_EB1) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB1_BOTH.html";
+            } else if (isWT_EB2) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB2_BOTH.html";
+            } else if (isWT_EB3) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/EB3_BOTH.html";
+            } else if (isWT_ALL) {
+                document.getElementById("EB_WT").src = "./output/viz/EB_WaitingTime/ALL_BOTH.html";
+            }
+        }
+        
+        //active/dis-active the buttons
+        if (trueCounter == 1) {
+            unActiveAllButtons();
+        }
+        document.getElementById(clickedWhat+"_button").setAttribute("class","active");
+        
+    }
+    function unActiveAllButtons() {
+        document.getElementById("EB1_button").classList.remove("active");
+        document.getElementById("EB2_button").classList.remove("active");
+        document.getElementById("EB3_button").classList.remove("active");
+        document.getElementById("ALL_button").classList.remove("active");
+        document.getElementById("CHINA_button").classList.remove("active");
+        document.getElementById("INDIA_button").classList.remove("active");
+        document.getElementById("BOTH_button").classList.remove("active");
+    }
+    
+    /**** content for EB_Wait time tab****/
+    function createEBVisaTypeCaption() {
+        var EBVisaTypeCaptionDIV = document.getElementById("EBVisaTypeCaption");
+        var eb1 = document.createElement("DIV");
+        eb1.innerHTML = "EB1 requires a PhD degree"
+        var eb2 = document.createElement("DIV");
+        eb2.innerHTML = "EB2 requires a Master's degree"
+        var eb3 = document.createElement("DIV");
+        eb3.innerHTML = "EB3 requires a Bachelor's degree"
+        
+        EBVisaTypeCaptionDIV.appendChild(eb1);
+        EBVisaTypeCaptionDIV.appendChild(eb2);
+        EBVisaTypeCaptionDIV.appendChild(eb3);
+        EBVisaTypeCaptionDIV.style.display = "block";
+    }
+    
+</script>
+</body>
+</html>
