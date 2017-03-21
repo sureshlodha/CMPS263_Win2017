@@ -1,0 +1,756 @@
+<!doctype html>
+<html>
+
+<head>
+
+<link type="text/css" rel="stylesheet" href="styles/rickshaw.min.css">
+<link type="text/css" rel="stylesheet" href="styles/style.css">
+
+<!-- libraries  -->
+<script src="libraries_rickshaw/d3.min.js"></script>
+<script src="libraries_rickshaw/d3.layout.min.js"></script>
+<script src="libraries_rickshaw/rickshaw.min.js"></script>
+<script src="libraries_rickshaw/Rickshaw.Graph.RangeSlider.js"></script>
+<script src="libraries_rickshaw/Rickshaw.Graph.RangeSlider.Preview.js"></script>
+<script src="libraries_map/d3-legend.js"></script>
+
+<title>The Travel Ban: Does it protect us?</title>
+
+</head>
+
+<body>
+
+<div class="title">The Travel Ban: Does it protect us?</div>
+
+<div>What is the rational behind banning immigration from Libya, Somalia, Sudan, Iran, Syria, and Yemen?</div>
+<br />
+<table>
+    <tr>
+        <td>
+            <div id="container3" style="width: 100%; height: 250px; text-align: center"></div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+<table>
+                <tr>
+                    <td style="background-color:#785F43; width: 15px"></td>
+                    <td>Iran</td>
+                    <td style="background-color:#96557E; width: 15px"></td>
+                    <td>Libya</td>
+                    <td style="background-color:#4782B4; width: 15px"></td>
+                    <td>Somalia</td>
+                    <td style="background-color:#65B9AC; width: 15px"></td>
+                    <td>Sudan</td>
+                    <td style="background-color:#73C03A; width: 15px"></td>
+                    <td>Syria</td>
+                    <td style="background-color:#C64F38; width: 15px"></td>
+                    <td>Yemen</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <!-- maps -->
+    <tr>
+        <th>Majority Muslim Countries (>50%)</th>
+        <th>Top 15 Highest Muslim Populations</th>
+    </tr>
+
+    <tr>
+        <td>
+            <div id="container1" style="width: 100%; height: 475px;"></div>
+        </td>
+
+        <td>
+            <div id="container2" style="width: 100%; height: 475px;"></div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td style="background-color:#bce0ff; width: 15px"></td>
+                    <td>50%</td>
+                    <td style="background-color:#a1c7e8; width: 15px"></td>
+                    <td>60%</td>
+                    <td style="background-color:#87b0d2; width: 15px"></td>
+                    <td>70%</td>
+                    <td style="background-color:#6d98bc; width: 15px"></td>
+                    <td>80%</td>
+                    <td style="background-color:#5280a6; width: 15px"></td>
+                    <td>90%</td>
+                    <td style="background-color:#386890; width: 15px"></td>
+                    <td>100%</td>
+                </tr>
+            </table>
+        </td>
+
+        <td>
+            Millions of People
+            <table>
+                <tr>
+                    <td style="background-color:#bce0ff; width: 10px"></td>
+                    <td>25 </td>
+                    <td style="background-color:#b1d6f6; width: 10px"></td>
+                    <td>40 </td>
+                    <td style="background-color:#a6cced; width: 10px"></td>
+                    <td>55 </td>
+                    <td style="background-color:#9bc2e3; width: 10px"></td>
+                    <td>70 </td>
+                    <td style="background-color:#90b8da; width: 10px"></td>
+                    <td>85 </td>
+                    <td style="background-color:#85aed1; width: 10px"></td>
+                    <td>100 </td>
+                    <td style="background-color:#7aa4c8; width: 10px"></td>
+                    <td>115 </td>
+                    <td style="background-color:#6f9abe; width: 10px"></td>
+                    <td>130 </td>
+                    <td style="background-color:#6490b5; width: 10px"></td>
+                    <td>145 </td>
+                    <td style="background-color:#5886ac; width: 10px"></td>
+                    <td>160 </td>
+                    <td style="background-color:#4e7ca2; width: 10px"></td>
+                    <td>175 </td>
+                    <td style="background-color:#427299; width: 10px"></td>
+                    <td>190 </td>
+                    <td style="background-color:#386890; width: 10px"></td>
+                    <td>205 </td> 
+                </tr>
+            </table>            
+        </td>
+    </tr>
+
+    <!-- graphs -->
+    <tr>
+        <th style="width:50%">Total Entry into US</th>
+        <th style="width:50%">Total US Terrorist Attacks</th>
+    </tr>
+
+    <tr>
+        <td style="width:50%">
+            <div id="chart_container">
+            <div id="y_axis2a"></div>
+            <div id="chart2a"></div>
+            <div id="legend2a"></div>
+            </div>
+        </td>
+        <td style="width:50%">
+            <div id="chart_container">
+            <div id="y_axis1a"></div>
+            <div id="chart1a"></div>
+            <div id="legend1a"></div>
+            </div>
+            <table style="font-size: 0.8em">
+                <tr>
+                    <td>All Banned Countries:</td><td>attacks by terrorists from one of the banned countries</td>
+                </tr>
+
+               <tr>
+                    <td>All Muslim Extremists:</td><td>attacks by terrorist groups from majority Muslim countries</td>
+                </tr>
+
+                <tr>
+                    <td>Total Attacks:</td><td>total terrorist attacks in US excluding Muslim extremists</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <th style="width:50%">Enrty from Muslim Majority Countries</th>
+        <th style="width:50%">Attacks from Banned Countries</th>
+    </tr>
+
+    <tr>
+        <td style="width:50%">
+            <div id="chart_container">
+            <div id="y_axis2b"></div>
+            <div id="chart2b"></div>
+            <div id="legend2b"></div>
+            </div>
+        </td>
+
+        <td style="width:50%">
+            <div id="chart_container">
+            <div id="y_axis1b"></div>
+            <div id="chart1b"></div>
+            <div id="legend1b"></div>
+            </div>
+            <div style="font-size: 0.8em">Note: No attacks were performed by Libya, Somalia, Sudan, or Syria</div>
+        </td>
+    </tr>
+
+</table>
+
+<div style="text-align: center;">Data was obtained from the <a href="http://start.umd.edu/gtd/">Global Terrorism Database</a>, <a href="https://www.dhs.gov/immigration-statistics">Department of Homeland Security</a>, and <a href="http://www.pewforum.org/2015/04/02/muslims/">Pew Research Center</a>
+<br />
+<br />
+<div style="font-size: 0.8em">Note: Terrorism data was unavailable for year 1993</div>
+
+
+<footer>
+    <div>Rebecca Rashkin et. al.</div>
+    <div style="font-size: 0.8em; margin-top: 10px;">CMPS 263 - Winter 2017 - UC Santa Cruz</div>
+
+</footer>
+
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Code for Entry to US !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+<script>
+
+var width = 300;
+
+var palette = new Rickshaw.Color.Palette( );
+
+var graph1a = new Rickshaw.Graph( {
+    element: document.querySelector("#chart1a"),
+    width: width,
+    height: 240,
+    renderer: 'stack',
+    series: [
+        {
+            name: "Total Attacks ",
+            data: [
+            { x: 631180800, y: 31 }, 
+            { x: 662716800, y: 30 }, 
+            { x: 694252800, y: 31 }, 
+            { x: 725875200, y: 31 }, 
+            { x: 757411200, y: 55 }, 
+            { x: 788947200, y: 60 }, 
+            { x: 820483200, y: 35 }, 
+            { x: 852105600, y: 38 }, 
+            { x: 883641600, y: 30 }, 
+            { x: 915177600, y: 53 }, 
+            { x: 946713600, y: 32 }, 
+            { x: 978336000, y: 37 }, 
+            { x: 1009872000, y: 33 }, 
+            { x: 1041408000, y: 31 }, 
+            { x: 1072944000, y: 9 }, 
+            { x: 1104566400, y: 20 }, 
+            { x: 1136102400, y: 4 }, 
+            { x: 1167638400, y: 9 }, 
+            { x: 1199174400, y: 18 }, 
+            { x: 1230796800, y: 8 }, 
+            { x: 1262332800, y: 16 }, 
+            { x: 1293868800, y: 10 }, 
+            { x: 1325404800, y: 17 }, 
+            { x: 1357027200, y: 19 }, 
+            { x: 1388563200, y: 26 }, 
+            { x: 1420099200, y: 36 }],
+            
+            color: palette.color(5)
+        },
+        {
+            name: "All Muslim Extremists",
+            data: [{ x: 631180800, y: 1 }, { x: 662716800, y: 0 }, { x: 694252800, y: 1 }, { x: 725875200, y: 0 }, { x: 757411200, y: 1 }, { x: 788947200, y: 0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 2 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 4 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 1 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 },{ x: 1136102400, y: 2 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 2 }, { x: 1262332800, y: 1 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 2 }],
+            color: palette.color(1)
+        },
+    {
+      name: "All Banned Countries",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 0 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 },  { x: 1136102400, y: 1 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 2 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },  { x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }],
+      color: palette.color(0)
+    },
+    ]
+
+    /*series: [
+        {
+            name: "Total Attacks ",
+            data: [{ x: 1990, y: 32 }, { x: 1991, y: 30 }, { x: 1992, y: 32 }, { x: 1993, y: 32 }, { x: 1994, y: 56 }, { x: 1995, y: 60 }, { x: 1996, y: 35 }, { x: 1997, y: 40 }, { x: 1998, y: 30 }, { x: 1999, y: 53 }, { x: 2000, y: 32 }, { x: 2001, y: 41 }, { x: 2002, y: 33 }, { x: 2003, y: 32 }, { x: 2004, y: 9 }, { x: 2005, y: 20 }, { x: 2006, y: 6 }, { x: 2007, y: 9 }, { x: 2008, y: 18 }, { x: 2009, y: 10 }, { x: 2010, y: 17 }, { x: 2011, y: 10 }, { x: 2012, y: 17 }, { x: 2013, y: 19 }, { x: 2014, y: 26 }, { x: 2015, y: 38 }],
+            color: palette.color()
+        },
+        {
+            name: "All Muslim Extremists",
+            data: [{ x: 1990, y: 1 }, { x: 1991, y: 0 }, { x: 1992, y: 1 }, { x: 1993, y: 0 }, { x: 1994, y: 1 }, { x: 1995, y: 0 }, { x: 1996, y: 0 }, { x: 1997, y: 2 },{ x: 1998, y: 0 }, { x: 1999, y: 0 }, { x: 2000, y: 0 }, { x: 2001, y: 4 }, { x: 2002, y: 0 }, { x: 2003, y: 1 }, { x: 2004, y: 0 }, { x: 2005, y: 0 },{ x: 2006, y: 2 }, { x: 2007, y: 0 }, { x: 2008, y: 0 }, { x: 2009, y: 2 }, { x: 2010, y: 1 }, { x: 2011, y: 0 }, { x: 2012, y: 0 }, { x: 2013, y: 0 },{ x: 2014, y: 0 }, { x: 2015, y: 2 }],
+            color: palette.color()
+        },
+    {
+      name: "All Banned Countries",
+            data: [{ x: 1990, y: 0 }, { x: 1991, y: 0 }, { x: 1992, y: 1 }, { x: 1993, y: 0 }, { x: 1994, y: 0 }, { x: 1995, y:0 }, { x: 1996, y: 0 }, { x: 1997, y: 0 },{ x: 1998, y: 0 }, { x: 1999, y: 0 }, { x: 2000, y: 0 }, { x: 2001, y: 0 }, { x: 2002, y: 0 }, { x: 2003, y: 0 }, { x: 2004, y: 0 }, { x: 2005, y: 0 },  { x: 2006, y: 1 }, { x: 2007, y: 0 }, { x: 2008, y: 0 }, { x: 2009, y: 2 }, { x: 2010, y: 0 }, { x: 2011, y: 0 }, { x: 2012, y: 0 }, { x: 2013, y: 0 },  { x: 2014, y: 0 }, { x: 2015, y: 0 }],
+      color: palette.color()
+    },
+    ]*/
+
+} );
+
+/*var x_axis = new Rickshaw.Graph.Axis.X( { graph: graph1a } );*/
+
+
+var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph1a } );
+
+var y_axis = new Rickshaw.Graph.Axis.Y( {
+    graph: graph1a,
+    orientation: 'left',
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    element: document.getElementById('y_axis1a'),
+} );
+
+var legend = new Rickshaw.Graph.Legend( {
+    element: document.querySelector('#legend1a'),
+    graph: graph1a
+} );
+
+var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+    graph: graph1a
+} );
+
+graph1a.render();
+</script>
+
+<script>
+var palette = new Rickshaw.Color.Palette( {scheme: 'colorwheel'});
+
+var graph1b = new Rickshaw.Graph( {
+    element: document.querySelector("#chart1b"),
+    width: width,
+    height: 240,
+    /*max: 10,*/
+    renderer: 'bar',
+    series: [
+        
+        /*{
+            name: "All Muslim Extremists",
+            data: [{ x: 631180800, y: 1 }, { x: 662716800, y: 0 }, { x: 694252800, y: 1 }, { x: 725875200, y: 0 }, { x: 757411200, y: 1 }, { x: 788947200, y: 0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 2 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 4 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 1 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 },{ x: 1136102400, y: 2 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 2 }, { x: 1262332800, y: 1 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 2 }],
+            color: palette.color()
+        },*/
+    /*{     name: "All Banned Countries",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 1 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 },  { x: 1136102400, y: 1 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 2 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },  { x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }],
+      color: palette.color()
+    }*/,
+    /*{
+      name: "Iraq",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 1 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 },{ x: 1136102400, y: 0 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 0 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }],      color: palette.color()
+    },*/
+    {
+      name: "Yemen",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 0 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 },{ x: 1136102400, y: 0 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 2 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }],      color: palette.color()
+    },
+    {
+      name: "Syria",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 0 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 }, { x: 1136102400, y: 0 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 0 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }], color: palette.color()
+    },
+    
+    {
+      name: "Sudan",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 0 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 }, { x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 }, { x: 1136102400, y: 0 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 0 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }], color: palette.color()
+    },
+    {
+      name: "Somalia",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 0 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 }, { x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 }, { x: 1136102400, y: 0 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 0 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }], color: palette.color()
+    },
+    {
+      name: "Libya",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 0 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 },{ x: 1136102400, y: 0 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 0 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }], color: palette.color()
+    },
+    {
+      name: "Iran",
+            data: [{ x: 631180800, y: 0 }, { x: 662716800, y: 0 }, { x: 694252800, y: 0 }, { x: 725875200, y: 0 }, { x: 757411200, y: 0 }, { x: 788947200, y:0 }, { x: 820483200, y: 0 }, { x: 852105600, y: 0 },{ x: 883641600, y: 0 }, { x: 915177600, y: 0 }, { x: 946713600, y: 0 }, { x: 978336000, y: 0 }, { x: 1009872000, y: 0 }, { x: 1041408000, y: 0 }, { x: 1072944000, y: 0 }, { x: 1104566400, y: 0 },{ x: 1136102400, y: 1 }, { x: 1167638400, y: 0 }, { x: 1199174400, y: 0 }, { x: 1230796800, y: 0 }, { x: 1262332800, y: 0 }, { x: 1293868800, y: 0 }, { x: 1325404800, y: 0 }, { x: 1357027200, y: 0 },{ x: 1388563200, y: 0 }, { x: 1420099200, y: 0 }],      color: palette.color()
+    },
+    
+    ]
+} );
+
+var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph1b } );
+
+var y_axis = new Rickshaw.Graph.Axis.Y( {
+    graph: graph1b,
+    orientation: 'left',
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    element: document.getElementById('y_axis1b'),
+} );
+
+var legend = new Rickshaw.Graph.Legend( {
+    element: document.querySelector('#legend1b'),
+    graph: graph1b
+} );
+
+var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+    graph: graph1b
+} );
+
+graph1b.render();
+</script>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!! Code For Terror Attacks !!!!!!!!!!!!!!!!!!!!!!! -->
+
+<script>
+var palette = new Rickshaw.Color.Palette( );
+
+var graph2a = new Rickshaw.Graph( {
+    element: document.querySelector("#chart2a"),
+    width: width,
+    height: 240,
+    renderer: 'stack',
+    series: [
+        {
+            name: "Total Entry",
+            data: [ { x: 1136102400, y: 33667328 }, { x: 1167638400, y: 37149651 }, { x: 1199174400, y: 39381928 }, { x: 1230796800, y: 36231554 }, { x: 1262332800, y: 46471569 }, { x: 1293868800, y: 53082286 }, { x: 1325404800, y: 53887286 }, { x: 1357027200, y: 61052260 }, { x: 1388563200, y: 74930606 }, { x: 1420099200, y: 76638236 }],
+            color: palette.color(3)
+        },
+        {
+            name: "Entry from majority muslim countries",
+            data: [{ x: 1136102400, y: 457571 }, { x: 1167638400, y: 494096 }, { x: 1199174400, y: 538578 }, { x: 1230796800, y: 540917 }, { x: 1262332800, y: 629189 }, { x: 1293868800, y: 720382 }, { x: 1325404800, y: 847130 }, { x: 1357027200, y: 965317 }, { x: 1388563200, y: 1152582 }, { x: 1420099200, y: 1217236 } ],
+            color: palette.color(1)
+        }
+    ]
+} );
+
+var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph2a } );
+
+var y_axis = new Rickshaw.Graph.Axis.Y( {
+    graph: graph2a,
+    orientation: 'left',
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    element: document.getElementById('y_axis2a'),
+} );
+
+var legend = new Rickshaw.Graph.Legend( {
+    element: document.querySelector('#legend2a'),
+    graph: graph2a
+} );
+
+var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+    graph: graph2a
+} );
+
+
+graph2a.render();
+
+</script>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!! Code For Terror Attacks !!!!!!!!!!!!!!!!!!!!!!! -->
+
+<script>
+var palette = new Rickshaw.Color.Palette( );
+
+var graph2b = new Rickshaw.Graph( {
+    element: document.querySelector("#chart2b"),
+    width: width,
+    height: 240,
+    renderer: 'line',
+    series: [
+
+        {
+            name: "Enrty from muslim majority countries",
+            data: [{ x: 1136102400, y: 457571 }, { x: 1167638400, y: 494096 }, { x: 1199174400, y: 538578 }, { x: 1230796800, y: 540917 }, { x: 1262332800, y: 629189 }, { x: 1293868800, y: 720382 }, { x: 1325404800, y: 847130 }, { x: 1357027200, y: 965317 }, { x: 1388563200, y: 1152582 }, { x: 1420099200, y: 1217236 } ],
+            color: palette.color(1)
+        }
+    ]
+} );
+
+var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph2b } );
+
+var y_axis = new Rickshaw.Graph.Axis.Y( {
+    graph: graph2b,
+    orientation: 'left',
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    element: document.getElementById('y_axis2b'),
+} );
+
+var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+    graph: graph2b
+} );
+
+
+graph2b.render();
+
+</script>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Map Code !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<script src="libraries_map/d3.min.js"></script>
+<script src="libraries_map/topojson.min.js"></script>
+<script src="libraries_map/datamaps.world.min.js"></script>
+
+<script>
+
+
+    // example data from server
+    /*var series = [
+        ["IRN",99.6],["IDN",87.2],["PAK",96.4],["IND",14.2],["BGD",90],["NGA",47.9],
+        ["TUR",98.6],["EGY",90],["DZA",98.2],["MAR",99.9],["IRQ",98.9],["SDN",97],
+        ["SAU",99.9],["AFG",99.8],["ETH",33.8],["UZB",96.5],["YEM",99],["CHN",1.8],
+        ["SYR",92.8],["MYS",61.4],["RUS",11.7],["NER",98.3],["PHL",11],["SOM",99.9]];*/
+
+        var series = [
+        ["MRT", 100.0   ],
+        ["MDV", 100.0   ],
+        ["AFG", 99.8    ],
+        ["TUN", 99.8    ],
+        ["IRN", 99.7    ],
+        ["ESH", 99.6    ],
+        ["MAR", 99.0    ],
+        ["YEM", 99.0    ],
+        ["TJK", 99.0    ],
+        ["IRQ", 98.9    ],
+        ["SOM", 98.9    ],
+        ["MYT", 98.8    ],
+        ["TUR", 98.6    ],
+        ["AZE", 98.4    ],
+        ["NER", 98.3    ],
+        ["COM", 98.3    ],
+        ["DZA", 98.2    ],
+        ["PSE", 97.5    ],
+        ["SAU", 97.1    ],
+        ["SDN", 97.0    ],
+        ["DJI", 97.0    ],
+        ["LBY", 96.6    ],
+        ["UZB", 96.5    ],
+        ["PAK", 96.4    ],
+        ["SEN", 95.9    ],
+        ["UNK", 95.6    ],
+        ["GMB", 95.3    ],
+        ["MLI", 95.0    ],
+        ["JOR", 93.8    ],
+        ["TKM", 93.3    ],
+        ["EGY", 90.0    ],
+        ["SYR", 90.0    ],
+        ["KGZ", 88.8    ],
+        ["OMN", 87.7    ],
+        ["IDN", 87.2    ],
+        ["BGD", 86.3    ],
+        ["GIN", 84.2    ],
+        ["CCK", 80.0    ],
+        ["QAT", 77.5    ],
+        ["ARE", 76.0    ],
+        ["KWT", 74.1    ],
+        ["SLE", 71.5    ],
+        ["KAZ", 70.2    ],
+        ["BHR", 70.2    ],
+        ["BRN", 67.0    ],
+        ["MYS", 61.4    ],
+        ["BFA", 60.5    ],
+        ["LBN", 59.7    ],
+        ["ALB", 58.8    ],
+        ["TCD", 58.0    ],
+        ["BIH", 50.7    ],
+        ["GNB", 50.0    ]
+        ];
+
+    // Datamaps expect data in format:
+    // { "USA": { "fillColor": "#42a844", numberOfWhatever: 75},
+    //   "FRA": { "fillColor": "#8dc386", numberOfWhatever: 43 } }
+    var dataset = {};
+    // We need to colorize every country based on "numberOfWhatever"
+    // colors should be uniq for every value.
+    // For this purpose we create palette(using min/max series-value)
+    var onlyValues = series.map(function(obj){ return obj[1]; });
+    var minValue = Math.min.apply(null, onlyValues),
+            maxValue = Math.max.apply(null, onlyValues);
+    // create color palette function
+    // color can be whatever you wish
+
+    var paletteScale = d3.scale.linear()
+            .domain([minValue,maxValue])
+            .range(["#bce0ff", "#386890"]); // blue color
+
+    /*var paletteScale = d3.scale.linear()
+            .domain([minValue,maxValue])
+            .range(["#effff3","#424c45"]); // blue color*/
+
+    // fill dataset in appropriate format
+    series.forEach(function(item){ //
+        // item example value ["USA", 70]
+        var iso = item[0],
+                value = item[1];
+        dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value) };
+    });
+
+        new Datamap({
+        element: document.getElementById('container1'),
+        scope:'world',
+
+        //set map zoom
+        setProjection: function(element) {
+            var projection = d3.geo.equirectangular()
+                .center([70, 10])
+                .rotate([4.4, 0])
+                .scale(175)
+                .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+            var path = d3.geo.path()
+                .projection(projection);
+
+            return {path: path, projection: projection};
+        },
+
+        // countries don't listed in dataset will be painted with this color
+        fills: { defaultFill: '#F5F5F5' },
+        data: dataset,
+        geographyConfig: {
+            borderColor: '#DEDEDE',
+            highlightBorderWidth: 2,
+            // don't change color on mouse hover
+            highlightFillColor: function(geo) {
+                return geo['fillColor'] || '#F5F5F5';
+            },
+            // only change border
+            highlightBorderColor: '#B7B7B7',
+            // show desired information in tooltip
+            
+            popupTemplate: function(geo, data) {
+                // don't show tooltip if country don't present in dataset
+                if (!data) { return ; }
+                // tooltip content
+                return ['<div class="hoverinfo">',
+                    '<strong>', geo.properties.name, '</strong>',
+                    '<br>Muslim % of country population: <strong>', data.numberOfThings,'%</strong>',
+                    '</div>'].join('');
+            }
+        }
+    });
+
+</script>
+
+<!-- MAP 2-->
+
+<script>
+    // example data from server
+    var series2 = [
+        ["IRN",74.8],["IDN",204.8],["PAK",178],["IND",172],["BGD",145.6],["NGA",93.8],
+        ["TUR",74.7],["EGY",73.8],["DZA",40.4],["MAR",32.4],["IRQ",31.1],["SDN",39],
+        ["SAU",25.5],["AFG",29],["UZB",26.8]
+        ];
+
+    // Datamaps expect data in format:
+    // { "USA": { "fillColor": "#42a844", numberOfWhatever: 75},
+    //   "FRA": { "fillColor": "#8dc386", numberOfWhatever: 43 } }
+    var dataset2 = {};
+    // We need to colorize every country based on "numberOfWhatever"
+    // colors should be uniq for every value.
+    // For this purpose we create palette(using min/max series-value)
+    var onlyValues2 = series2.map(function(obj){ return obj[1]; });
+    var minValue2 = Math.min.apply(null, onlyValues2),
+            maxValue2 = Math.max.apply(null, onlyValues2);
+    // create color palette function
+    // color can be whatever you wish
+    /*var paletteScale = d3.scale.linear()
+            .domain([minValue2,maxValue2])
+            .range(["#effff3","#424c45"]); // blue color*/
+
+    var paletteScale = d3.scale.linear()
+            .domain([minValue2,maxValue2])
+            .range(["#bce0ff", "#386890"]); // blue color
+
+    // fill dataset in appropriate format
+    series2.forEach(function(item){ //
+        // item example value ["USA", 70]
+        var iso2 = item[0],
+                value = item[1];
+        dataset2[iso2] = { numberOfThings: value, fillColor: paletteScale(value) };
+    });
+    // render map
+    new Datamap({
+        element: document.getElementById('container2'),
+
+        //set map zoom
+        setProjection: function(element) {
+            var projection = d3.geo.equirectangular()
+                .center([70, 10])
+                .rotate([4.4, 0])
+                .scale(175)
+                .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+            var path = d3.geo.path()
+                .projection(projection);
+
+            return {path: path, projection: projection};
+        },
+
+        // countries don't listed in dataset will be painted with this color
+        fills: { defaultFill: '#F5F5F5' },
+        data: dataset2,
+        geographyConfig: {
+            borderColor: '#DEDEDE',
+            highlightBorderWidth: 2,
+            // don't change color on mouse hover
+            highlightFillColor: function(geo) {
+                return geo['fillColor'] || '#F5F5F5';
+            },
+            // only change border
+            highlightBorderColor: '#B7B7B7',
+            // show desired information in tooltip
+            popupTemplate: function(geo, data) {
+                // don't show tooltip if country don't present in dataset
+                if (!data) { return ; }
+                // tooltip content
+                return ['<div class="hoverinfo">',
+                    '<strong>', geo.properties.name, '</strong>',
+                    '<br>Muslim population: <strong>', data.numberOfThings,' million</strong>',
+                    '</div>'].join('');
+            }
+        }
+    });
+</script>
+
+<script>
+    // example data from server
+    var series3 = [
+        ["IRN"],["SYR"],["LBY"],["SOM"],["SDN"],["YEM"]];
+
+    // Datamaps expect data in format:
+    // { "USA": { "fillColor": "#42a844", numberOfWhatever: 75},
+    //   "FRA": { "fillColor": "#8dc386", numberOfWhatever: 43 } }
+    var dataset3 = {"IRN": {"fillColor": "#785F43"},
+                    "SOM": {"fillColor": "#4782B4"},
+                    "SYR": {"fillColor": "#73C03A"},
+                    "LBY": {"fillColor": "#96557E"},
+                    "SDN": {"fillColor": "#65B9AC"},
+                    "YEM": {"fillColor": "#C64F38"}
+                    };
+
+
+
+    // We need to colorize every country based on "numberOfWhatever"
+    // colors should be uniq for every value.
+    // For this purpose we create palette(using min/max series-value)
+    var onlyValues3 = series3.map(function(obj){ return obj[1]; });
+    var minValue3 = Math.min.apply(null, onlyValues3),
+            maxValue3 = Math.max.apply(null, onlyValues3);
+
+    // render map
+    new Datamap({
+        element: document.getElementById('container3'),
+
+        //set map zoom
+        setProjection: function(element) {
+            var projection = d3.geo.equirectangular()
+                .center([40, 20])
+                .rotate([4.4, 0])
+                .scale(300)
+                .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+            var path = d3.geo.path()
+                .projection(projection);
+
+            return {path: path, projection: projection};
+        },
+
+        // countries not listed in dataset will be painted with this color
+        fills: { defaultFill: '#F5F5F5' },
+        data: dataset3,
+        geographyConfig: {
+            borderColor: '#DEDEDE',
+            highlightBorderWidth: 2,
+            // don't change color on mouse hover
+            highlightFillColor: function(geo) {
+                return geo['fillColor'] || '#F5F5F5';
+            },
+            // only change border
+            highlightBorderColor: '#B7B7B7',
+            // show desired information in tooltip
+            popupTemplate: function(geo, data) {
+                // don't show tooltip if country don't present in dataset
+                if (!data) { return ; }
+                // tooltip content
+                return ['<div class="hoverinfo">',
+                    '<strong>', geo.properties.name, '</strong></div>'].join('');
+            }
+        }
+    });
+</script>
+
+</body>
+
+</html>

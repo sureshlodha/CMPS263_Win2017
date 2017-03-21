@@ -1,0 +1,135 @@
+.title {
+      font-size: 3em;
+      margin-top: 30px;
+      margin-bottom: 30px;
+}
+
+
+body {
+      margin:	0px;
+      font-family: "Trebuchet MS", sanserif;
+      color: #393939;
+      text-align: justify;
+      margin-left: auto;
+      margin-right: auto;
+      width: 90%;
+}
+
+h1 {
+      font-weight: normal;
+      margin-bottom: 10px;
+}
+
+h2 {
+      margin-bottom: 10px;
+      /*font-variant: small-caps;*/ 
+}
+
+.hoverinfo {
+  font-family: "Trebuchet MS", sanserif;
+  
+}
+
+th {
+    /*text-align:     center;*/
+    padding-top:    30px;
+    padding-bottom: 10px;
+ }
+
+footer {
+    margin: 30px;
+    text-align: center;
+}
+
+table {
+  margin: 30px;
+  width: 100%;
+}
+
+td {
+  text-align: top;
+}
+
+.width {
+  width: 200px;
+}
+
+.bord {
+  border-right-style: solid;
+  border-right-width: 1px;
+}
+
+.active { 
+      fill: blue !important;
+}
+
+.legend_map {
+  font-family: "Trebuchet MS", sanserif;
+}
+
+#chart_container {
+      display: inline-block;
+      font-family: "Trebuchet MS", sanserif;
+}
+
+#chart1a {
+      float: left;
+}
+
+#chart1b {
+      float: left;
+}
+
+#chart2a {
+    float: left;
+}
+
+#chart2b {
+    float: left;
+}
+
+#legend1a {
+      float: left;
+      margin-left: 15px;
+}
+
+#legend1b {
+      float: left;
+      margin-left: 15px;
+}
+
+#legend2a {
+    float: left;
+    margin-left: 15px;
+}
+
+#legend2b {
+    float: left;
+    margin-left: 15px;
+}
+
+#y_axis1a {
+      float: left;
+      width: 40px;
+}
+
+#y_axis1b {
+      float: left;
+      width: 40px;
+}
+
+#y_axis2a {
+    float: left;
+    width: 40px;
+}
+
+#y_axis2b {
+    float: left;
+    width: 40px;
+}
+
+#offset_form {
+      float: left;
+      margin: 2em 0 0 15px;
+      font-size: 13px;
+}
